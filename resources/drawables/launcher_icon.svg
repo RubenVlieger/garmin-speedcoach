@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg id="svg2" viewBox="29.38 108.699 473.733 457.311" xmlns="http://www.w3.org/2000/svg" width="100px" height="100px" preserveAspectRatio="none">
+  <desc>Source: openclipart.org/detail/209545</desc>
+  <defs>
+    <view id="view-1">
+      <title>View 1</title>
+    </view>
+  </defs>
+  <rect x="125.478" y="575.772" width="40.068" height="287.717" rx="11" ry="11" style="stroke: rgb(0, 0, 0); transform-box: fill-box; transform-origin: 50% 50%;" transform="matrix(0.809017, 0.587785, -0.587785, 0.809017, -44.44224, -140.71088)"/>
+  <rect x="75.741" y="116.681" width="175" height="358.899" rx="11" ry="11" style="stroke: rgb(0, 0, 0); fill: rgb(255, 245, 0); transform-box: fill-box; transform-origin: 50% 50%;" transform="matrix(0.809017, 0.587785, -0.587785, 0.809017, 123.878343, 30.174763)"/>
+  <ellipse style="fill: rgb(216, 216, 216); stroke-width: 2px; stroke: rgb(0, 0, 0);" cx="229.227" cy="361.745" rx="91.7" ry="90.168"/>
+  <ellipse style="fill: rgb(255, 255, 255); stroke: rgb(0, 0, 0); stroke-width: 3px;" cx="229.311" cy="360.48" rx="78.617" ry="74.572"/>
+  <ellipse style="stroke: rgb(255, 0, 0); fill: rgb(255, 0, 0);" cx="227.85" cy="361.145" rx="12.783" ry="13.862"/>
+  <ellipse style="stroke: rgb(0, 0, 0); fill: rgb(255, 0, 0); stroke-width: 0px; transform-box: fill-box; transform-origin: 50% 50%;" cx="228.038" cy="317.995" rx="8.291" ry="34.912" transform="matrix(0.829037, 0.559193, -0.559193, 0.829037, 18.667449, 14.832293)"/>
+  <rect x="251.112" y="281.437" width="6.982" height="32.398" rx="3.491" ry="3.491" style="stroke: rgb(0, 0, 0); fill: rgb(255, 0, 0); stroke-width: 0px; transform-box: fill-box; transform-origin: 50% 50%;" transform="matrix(0.788011, 0.615661, -0.615661, 0.788011, 10.427659, 8.801214)"/>
+  <text style="fill: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 22px; font-weight: 700; white-space: pre;" x="186.038" y="408.058">(s/500m)</text>
+</svg>

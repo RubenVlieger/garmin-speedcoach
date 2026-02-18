@@ -1,0 +1,602 @@
+[ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc"; @line = 1; @symbol_importdef<0> = [Toybox,1,7,13]; @symbol_importdef<1> = [Lang,1,14,18]; ]
+import Toybox.Lang;
+[ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc"; @line = 2; @symbol_usingdef<0> = [Toybox,2,6,12]; @symbol_usingdef<1> = [Application,2,13,24]; @symbol_usingAlias = [App,2,28,31]; ]
+using Toybox.Application as :App;
+[ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc"; @line = 3; @symbol_usingdef<0> = [Toybox,3,6,12]; @symbol_usingdef<1> = [WatchUi,3,13,20]; @symbol_usingAlias = [WatchUi,3,28,35]; ]
+using Toybox.WatchUi as :WatchUi;
+[ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc"; @line = 4; @symbol_usingdef<0> = [Toybox,4,6,12]; @symbol_usingdef<1> = [Sensor,4,13,19]; @symbol_usingAlias = [Sensor,4,28,34]; ]
+using Toybox.Sensor as :Sensor;
+[ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc"; @line = 5; @symbol_usingdef<0> = [Toybox,5,6,12]; @symbol_usingdef<1> = [Activity,5,13,21]; @symbol_usingAlias = [Activity,5,28,36]; ]
+using Toybox.Activity as :Activity;
+[ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc"; @line = 6; @symbol_usingdef<0> = [Toybox,6,6,12]; @symbol_usingdef<1> = [Timer,6,13,18]; @symbol_usingAlias = [Timer,6,28,33]; ]
+using Toybox.Timer as :Timer;
+[ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc"; @line = 7; @symbol_usingdef<0> = [Toybox,7,6,12]; @symbol_usingdef<1> = [System,7,13,19]; @symbol_usingAlias = [System,7,28,34]; ]
+using Toybox.System as :System;
+[ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc"; @line = 9; @symbol_classdef = [speedcoachApp,9,6,19]; @symbol_extends<0> = [App,9,28,31]; @symbol_extends<1> = [AppBase,9,32,39]; ]
+class speedcoachApp extends App.AppBase {
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc"; @line = 9; ]
+    <init> {
+    }
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc"; @line = 9; ]
+    static
+    <init> {
+    }
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc"; @line = 11; @position = 16; @symbol_vardef = [_processor,11,16,26]; @symbol_type<0> = [StrokeProcessor,11,30,45]; ]
+    private
+    var _processor as StrokeProcessor;
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc"; @line = 12; @position = 16; @symbol_vardef = [_view,12,16,21]; @symbol_type<0> = [speedcoachView,12,30,44]; ]
+    private
+    var _view as speedcoachView or Null;
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc"; @line = 13; @position = 16; @symbol_vardef = [_gpsTimer,13,16,25]; @symbol_type<0> = [Timer,13,30,35]; @symbol_type<1> = [Timer,13,36,41]; ]
+    private
+    var _gpsTimer as Timer.Timer or Null;
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc"; @line = 14; @position = 16; @symbol_vardef = [_hrTimer,14,16,24]; @symbol_type<0> = [Timer,14,28,33]; @symbol_type<1> = [Timer,14,34,39]; ]
+    private
+    var _hrTimer as Timer.Timer or Null;
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc"; @line = 15; @symbol_functiondef = [initialize,15,13,23]; ]
+    function initialize() as Void {
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_15_26_18_4_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc" 16 8 ]
+        symbol [ AppBase %tmp.2 16 8 15 ];
+        %tmp.2 = getv ? :AppBase;
+        symbol [ initialize %tmp.3 16 16 26 ];
+        %tmp.3 = getv function %tmp.2 :initialize;
+        invoke %tmp.2 %tmp.3();
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc" 17 8 ]
+        symbol [ StrokeProcessor %tmp.7 17 25 40 ];
+        %tmp.7 = getv ? :StrokeProcessor;
+        %tmp.4 = newc %tmp.7 ();
+        symbol [ _processor ? 17 8 18 ];
+        putv self :_processor %tmp.4;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_15_26_18_4_stop:
+    }
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc"; @line = 20; @symbol_functiondef = [onStart,20,13,20]; @symbol_param<0> = [state,20,21,26]; @symbol_param<0>_type<0> = [Dictionary,20,30,40]; ]
+    function onStart(state as Dictionary or Null) as Void {
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_20_51_24_4_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc" 21 8 ]
+        %tmp.1 = self;
+        symbol [ _registerSensorListener %tmp.2 21 8 31 ];
+        %tmp.2 = getv function %tmp.1 :_registerSensorListener;
+        invoke %tmp.1 %tmp.2();
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc" 22 8 ]
+        %tmp.3 = self;
+        symbol [ _startGpsTimer %tmp.4 22 8 22 ];
+        %tmp.4 = getv function %tmp.3 :_startGpsTimer;
+        invoke %tmp.3 %tmp.4();
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc" 23 8 ]
+        %tmp.5 = self;
+        symbol [ _startHrTimer %tmp.6 23 8 21 ];
+        %tmp.6 = getv function %tmp.5 :_startHrTimer;
+        invoke %tmp.5 %tmp.6();
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_20_51_24_4_stop:
+    }
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc"; @line = 26; @symbol_functiondef = [onStop,26,13,19]; @symbol_param<0> = [state,26,20,25]; @symbol_param<0>_type<0> = [Dictionary,26,29,39]; ]
+    function onStop(state as Dictionary or Null) as Void {
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_26_50_37_4_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc" 27 8 ]
+        try @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_27_8_29_47_beginTry @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_27_8_29_47_endTry @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_27_8_29_47_catch @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_27_8_29_47_finally;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_27_8_29_47_beginTry:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_27_12_29_8_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc" 28 12 ]
+        symbol [ Sensor %tmp.1 28 12 18 ];
+        %tmp.1 = getm $.Toybox.Sensor;
+        symbol [ unregisterSensorDataListener %tmp.2 28 19 47 ];
+        %tmp.2 = getv function %tmp.1 :unregisterSensorDataListener;
+        invoke %tmp.1 %tmp.2();
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_27_12_29_8_stop:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_27_8_29_47_endTry:
+        jsr @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_27_8_29_47_finally;
+        goto @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_27_8_29_47_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_27_8_29_47_catch:
+        %tmp.3 = exception;
+        push %tmp.3;
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc" 29 10 ]
+        %tmp.4 = dup %tmp.3;
+        symbol [ Lang %tmp.5 29 30 34 ];
+        %tmp.5 = getm $.Toybox.Lang;
+        symbol [ Exception %tmp.6 29 35 44 ];
+        %tmp.6 = getv %tmp.5 :Exception;
+        %tmp.7 = isa %tmp.4 %tmp.6;
+        bf %tmp.7 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_29_10_29_47_next;
+        [ "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_27_8_29_47_catch" "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_29_10_29_47_next" ]
+        %e.1 = local;
+        symbol [ e %e.1 29 17 18 ];
+        %tmp.8 = dup %tmp.3;
+        %tmp.9 = as %tmp.8 Lang.Exception;
+        lputv %e.1 %tmp.9;
+        symbol [ e %e.1 29 17 18 ];
+        jsr @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_27_8_29_47_finally;
+        pop;
+        goto @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_27_8_29_47_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_29_10_29_47_next:
+        try @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_27_8_29_47_catch @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_29_10_29_47_next @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_29_10_29_47_next @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_27_8_29_47_finally;
+        jsr @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_27_8_29_47_finally;
+        throw %tmp.3;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_27_8_29_47_finally:
+        jsrret;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_27_8_29_47_end:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc" 31 8 ]
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_31_8_33_8_if_stmt:
+        symbol [ _gpsTimer %tmp.11 31 12 21 ];
+        %tmp.11 = getv ? :_gpsTimer;
+        %tmp.12 = null;
+        %tmp.13 = ne %tmp.11 %tmp.12;
+        bf %tmp.13 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_31_8_33_8_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_31_8_33_8_if_true:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_31_31_33_8_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc" 32 12 ]
+        symbol [ _gpsTimer %tmp.15 32 12 21 ];
+        %tmp.15 = getv ? :_gpsTimer;
+        %tmp.16 = as %tmp.15 { (!Null) };
+        symbol [ stop %tmp.17 32 22 26 ];
+        %tmp.17 = getv function %tmp.16 :stop;
+        invoke %tmp.16 %tmp.17();
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_31_31_33_8_stop:
+        goto @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_31_8_33_8_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_31_8_33_8_if_end:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc" 34 8 ]
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_34_8_36_8_if_stmt:
+        symbol [ _hrTimer %tmp.19 34 12 20 ];
+        %tmp.19 = getv ? :_hrTimer;
+        %tmp.20 = null;
+        %tmp.21 = ne %tmp.19 %tmp.20;
+        bf %tmp.21 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_34_8_36_8_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_34_8_36_8_if_true:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_34_30_36_8_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc" 35 12 ]
+        symbol [ _hrTimer %tmp.23 35 12 20 ];
+        %tmp.23 = getv ? :_hrTimer;
+        %tmp.24 = as %tmp.23 { (!Null) };
+        symbol [ stop %tmp.25 35 21 25 ];
+        %tmp.25 = getv function %tmp.24 :stop;
+        invoke %tmp.24 %tmp.25();
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_34_30_36_8_stop:
+        goto @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_34_8_36_8_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_34_8_36_8_if_end:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_26_50_37_4_stop:
+    }
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc"; @line = 39; @symbol_functiondef = [_startHrTimer,39,21,34]; ]
+    private
+    function _startHrTimer() as Void {
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_39_45_42_4_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc" 40 8 ]
+        symbol [ Timer %tmp.3 40 23 28 ];
+        %tmp.3 = getm $.Toybox.Timer;
+        symbol [ Timer %tmp.4 40 29 34 ];
+        %tmp.4 = getv function ? %tmp.3 :Timer;
+        %tmp.1 = newc %tmp.4 ();
+        symbol [ _hrTimer ? 40 8 16 ];
+        putv self :_hrTimer %tmp.1;
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc" 41 8 ]
+        symbol [ _hrTimer %tmp.6 41 8 16 ];
+        %tmp.6 = getv ? :_hrTimer;
+        symbol [ start %tmp.7 41 17 22 ];
+        %tmp.7 = getv function %tmp.6 :start;
+        %tmp.8 = self;
+        symbol [ method %tmp.9 41 23 29 ];
+        %tmp.9 = getv function %tmp.8 :method;
+        %tmp.11 = const :onHrTick;
+        symbol [ onHrTick %tmp.11 41 31 39 const ];
+        %tmp.12 = invoke %tmp.8 %tmp.9(%tmp.11);
+        %tmp.13 = 1000;
+        %tmp.14 = true;
+        invoke %tmp.6 %tmp.7(%tmp.12, %tmp.13, %tmp.14);
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_39_45_42_4_stop:
+    }
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc"; @line = 44; @symbol_functiondef = [onHrTick,44,13,21]; ]
+    function onHrTick() as Void {
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_44_32_55_4_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc" 45 8 ]
+        try @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_45_8_54_8_beginTry @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_45_8_54_8_endTry @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_45_8_54_8_catch @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_45_8_54_8_finally;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_45_8_54_8_beginTry:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_45_12_52_8_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc" 46 12 ]
+        [ "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_45_12_52_8_start" "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_45_12_52_8_stop" ]
+        %actInfo.1 = local;
+        symbol [ actInfo %actInfo.1 46 16 23 ];
+        symbol [ Activity %tmp.1 46 26 34 ];
+        %tmp.1 = getm $.Toybox.Activity;
+        symbol [ getActivityInfo %tmp.2 46 35 50 ];
+        %tmp.2 = getv function %tmp.1 :getActivityInfo;
+        %tmp.3 = invoke %tmp.1 %tmp.2();
+        lputv %actInfo.1 %tmp.3;
+        symbol [ actInfo %actInfo.1 46 16 23 ];
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc" 47 12 ]
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_47_12_51_12_if_stmt:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_47_16_47_63_begin:
+        %tmp.4 = lgetv %actInfo.1;
+        symbol [ actInfo %tmp.4 47 16 23 ];
+        %tmp.5 = null;
+        %tmp.6 = ne %tmp.4 %tmp.5;
+        bf %tmp.6 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_47_12_51_12_if_else_false;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_47_35_47_63_true:
+        %tmp.7 = lgetv %actInfo.1;
+        symbol [ actInfo %tmp.7 47 35 42 ];
+        %tmp.8 = as %tmp.7 { (!Null) };
+        symbol [ currentHeartRate %tmp.9 47 43 59 ];
+        %tmp.9 = getv %tmp.8 :currentHeartRate;
+        %tmp.10 = null;
+        %tmp.11 = ne %tmp.9 %tmp.10;
+        push %tmp.11;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_47_35_47_63_end:
+        %tmp.12 = phi [%tmp.6 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_47_16_47_63_begin] [%tmp.11 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_47_35_47_63_true] [%tmp.12 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_47_35_47_63_end];
+        bf %tmp.12 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_47_12_51_12_if_else_false;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_47_12_51_12_if_true:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_47_69_49_12_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc" 48 16 ]
+        symbol [ _processor %tmp.14 48 16 26 ];
+        %tmp.14 = getv ? :_processor;
+        symbol [ updateHr %tmp.15 48 27 35 ];
+        %tmp.15 = getv function %tmp.14 :updateHr;
+        %tmp.16 = lgetv %actInfo.1;
+        symbol [ actInfo %tmp.16 48 36 43 ];
+        %tmp.17 = as %tmp.16 { (!Null) };
+        symbol [ currentHeartRate %tmp.18 48 44 60 ];
+        %tmp.18 = getv %tmp.17 :currentHeartRate;
+        invoke %tmp.14 %tmp.15(%tmp.18);
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_47_69_49_12_stop:
+        goto @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_47_12_51_12_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_47_12_51_12_if_else_false:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_49_19_51_12_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc" 50 16 ]
+        symbol [ _processor %tmp.20 50 16 26 ];
+        %tmp.20 = getv ? :_processor;
+        symbol [ updateHr %tmp.21 50 27 35 ];
+        %tmp.21 = getv function %tmp.20 :updateHr;
+        %tmp.22 = null;
+        invoke %tmp.20 %tmp.21(%tmp.22);
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_49_19_51_12_stop:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_47_12_51_12_if_end:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_45_12_52_8_stop:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_45_8_54_8_endTry:
+        jsr @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_45_8_54_8_finally;
+        goto @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_45_8_54_8_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_45_8_54_8_catch:
+        %tmp.23 = exception;
+        push %tmp.23;
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc" 52 10 ]
+        %tmp.24 = dup %tmp.23;
+        symbol [ Lang %tmp.25 52 30 34 ];
+        %tmp.25 = getm $.Toybox.Lang;
+        symbol [ Exception %tmp.26 52 35 44 ];
+        %tmp.26 = getv %tmp.25 :Exception;
+        %tmp.27 = isa %tmp.24 %tmp.26;
+        bf %tmp.27 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_52_10_54_8_next;
+        [ "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_45_8_54_8_catch" "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_52_10_54_8_next" ]
+        %e.2 = local;
+        symbol [ e %e.2 52 17 18 ];
+        %tmp.28 = dup %tmp.23;
+        %tmp.29 = as %tmp.28 Lang.Exception;
+        lputv %e.2 %tmp.29;
+        symbol [ e %e.2 52 17 18 ];
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_52_46_54_8_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc" 53 12 ]
+        symbol [ _processor %tmp.31 53 12 22 ];
+        %tmp.31 = getv ? :_processor;
+        symbol [ updateHr %tmp.32 53 23 31 ];
+        %tmp.32 = getv function %tmp.31 :updateHr;
+        %tmp.33 = null;
+        invoke %tmp.31 %tmp.32(%tmp.33);
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_52_46_54_8_stop:
+        jsr @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_45_8_54_8_finally;
+        pop;
+        goto @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_45_8_54_8_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_52_10_54_8_next:
+        try @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_45_8_54_8_catch @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_52_10_54_8_next @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_52_10_54_8_next @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_45_8_54_8_finally;
+        jsr @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_45_8_54_8_finally;
+        throw %tmp.23;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_45_8_54_8_finally:
+        jsrret;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_45_8_54_8_end:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_44_32_55_4_stop:
+    }
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc"; @line = 58; @symbol_functiondef = [getInitialView,58,13,27]; ]
+    function getInitialView() {
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_58_30_62_4_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc" 59 8 ]
+        symbol [ speedcoachView %tmp.4 59 20 34 ];
+        %tmp.4 = getv ? :speedcoachView;
+        symbol [ _processor %tmp.6 59 35 45 ];
+        %tmp.6 = getv ? :_processor;
+        %tmp.1 = newc %tmp.4 (%tmp.6);
+        symbol [ _view ? 59 8 13 ];
+        putv self :_view %tmp.1;
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc" 60 8 ]
+        [ "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_58_30_62_4_start" "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_58_30_62_4_stop" ]
+        %delegate.1 = local;
+        symbol [ delegate %delegate.1 60 12 20 ];
+        symbol [ speedcoachDelegate %tmp.10 60 27 45 ];
+        %tmp.10 = getv ? :speedcoachDelegate;
+        symbol [ _processor %tmp.12 60 46 56 ];
+        %tmp.12 = getv ? :_processor;
+        %tmp.7 = newc %tmp.10 (%tmp.12);
+        lputv %delegate.1 %tmp.7;
+        symbol [ delegate %delegate.1 60 12 20 ];
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc" 61 8 ]
+        %tmp.13 = newa 2;
+        symbol [ _view %tmp.15 61 16 21 ];
+        %tmp.15 = getv ? :_view;
+        %tmp.16 = dup %tmp.13;
+        %tmp.17 = aputv %tmp.16 0 %tmp.15;
+        %tmp.18 = lgetv %delegate.1;
+        symbol [ delegate %tmp.18 61 23 31 ];
+        %tmp.19 = dup %tmp.17;
+        %tmp.20 = aputv %tmp.19 1 %tmp.18;
+        ret %tmp.20;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_58_30_62_4_stop:
+    }
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc"; @line = 68; @symbol_functiondef = [_registerSensorListener,68,21,44]; ]
+    private
+    function _registerSensorListener() as Void {
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_68_55_82_4_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc" 69 8 ]
+        [ "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_68_55_82_4_start" "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_68_55_82_4_stop" ]
+        %options.1 = local;
+        symbol [ options %options.1 69 12 19 ];
+        %tmp.1 = newd 2;
+        %tmp.3 = const :period;
+        symbol [ period %tmp.3 70 13 19 const ];
+        %tmp.4 = 4;
+        %tmp.5 = dup %tmp.1;
+        %tmp.6 = aputv %tmp.5 %tmp.3 %tmp.4;
+        %tmp.8 = const :accelerometer;
+        symbol [ accelerometer %tmp.8 71 13 26 const ];
+        %tmp.9 = newd 2;
+        %tmp.11 = const :enabled;
+        symbol [ enabled %tmp.11 72 17 24 const ];
+        %tmp.12 = true;
+        %tmp.13 = dup %tmp.9;
+        %tmp.14 = aputv %tmp.13 %tmp.11 %tmp.12;
+        %tmp.16 = const :sampleRate;
+        symbol [ sampleRate %tmp.16 73 17 27 const ];
+        %tmp.17 = 25;
+        %tmp.18 = dup %tmp.14;
+        %tmp.19 = aputv %tmp.18 %tmp.16 %tmp.17;
+        %tmp.20 = dup %tmp.6;
+        %tmp.21 = aputv %tmp.20 %tmp.8 %tmp.19;
+        lputv %options.1 %tmp.21;
+        symbol [ options %options.1 69 12 19 ];
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc" 77 8 ]
+        try @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_77_8_81_8_beginTry @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_77_8_81_8_endTry @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_77_8_81_8_catch @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_77_8_81_8_finally;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_77_8_81_8_beginTry:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_77_12_79_8_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc" 78 12 ]
+        symbol [ Sensor %tmp.22 78 12 18 ];
+        %tmp.22 = getm $.Toybox.Sensor;
+        symbol [ registerSensorDataListener %tmp.23 78 19 45 ];
+        %tmp.23 = getv function %tmp.22 :registerSensorDataListener;
+        %tmp.24 = self;
+        symbol [ method %tmp.25 78 46 52 ];
+        %tmp.25 = getv function %tmp.24 :method;
+        %tmp.27 = const :onSensorData;
+        symbol [ onSensorData %tmp.27 78 54 66 const ];
+        %tmp.28 = invoke %tmp.24 %tmp.25(%tmp.27);
+        %tmp.29 = lgetv %options.1;
+        symbol [ options %tmp.29 78 69 76 ];
+        invoke %tmp.22 %tmp.23(%tmp.28, %tmp.29);
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_77_12_79_8_stop:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_77_8_81_8_endTry:
+        jsr @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_77_8_81_8_finally;
+        goto @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_77_8_81_8_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_77_8_81_8_catch:
+        %tmp.30 = exception;
+        push %tmp.30;
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc" 79 10 ]
+        %tmp.31 = dup %tmp.30;
+        symbol [ Lang %tmp.32 79 30 34 ];
+        %tmp.32 = getm $.Toybox.Lang;
+        symbol [ Exception %tmp.33 79 35 44 ];
+        %tmp.33 = getv %tmp.32 :Exception;
+        %tmp.34 = isa %tmp.31 %tmp.33;
+        bf %tmp.34 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_79_10_81_8_next;
+        [ "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_77_8_81_8_catch" "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_79_10_81_8_next" ]
+        %e.2 = local;
+        symbol [ e %e.2 79 17 18 ];
+        %tmp.35 = dup %tmp.30;
+        %tmp.36 = as %tmp.35 Lang.Exception;
+        lputv %e.2 %tmp.36;
+        symbol [ e %e.2 79 17 18 ];
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_79_46_81_8_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc" 80 12 ]
+        symbol [ System %tmp.37 80 12 18 ];
+        %tmp.37 = getm $.Toybox.System;
+        symbol [ println %tmp.38 80 19 26 ];
+        %tmp.38 = getv function %tmp.37 :println;
+        %tmp.39 = "Sensor registration failed: ";
+        %tmp.40 = lgetv %e.2;
+        symbol [ e %tmp.40 80 60 61 ];
+        symbol [ getErrorMessage %tmp.41 80 62 77 ];
+        %tmp.41 = getv function %tmp.40 :getErrorMessage;
+        %tmp.42 = invoke %tmp.40 %tmp.41();
+        %tmp.43 = add %tmp.39 %tmp.42;
+        invoke %tmp.37 %tmp.38(%tmp.43);
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_79_46_81_8_stop:
+        jsr @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_77_8_81_8_finally;
+        pop;
+        goto @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_77_8_81_8_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_79_10_81_8_next:
+        try @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_77_8_81_8_catch @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_79_10_81_8_next @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_79_10_81_8_next @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_77_8_81_8_finally;
+        jsr @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_77_8_81_8_finally;
+        throw %tmp.30;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_77_8_81_8_finally:
+        jsrret;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_77_8_81_8_end:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_68_55_82_4_stop:
+    }
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc"; @line = 84; @symbol_functiondef = [onSensorData,84,13,25]; @symbol_param<0> = [data,84,26,30]; @symbol_param<0>_type<0> = [Sensor,84,34,40]; @symbol_param<0>_type<1> = [SensorData,84,41,51]; ]
+    function onSensorData(data as Sensor.SensorData) as Void {
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_84_61_89_4_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc" 85 8 ]
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_85_8_88_8_if_stmt:
+        %tmp.1 = lgetv %data;
+        symbol [ data %tmp.1 85 12 16 ];
+        symbol [ accelerometerData %tmp.2 85 17 34 ];
+        %tmp.2 = getv %tmp.1 :accelerometerData;
+        %tmp.3 = null;
+        %tmp.4 = ne %tmp.2 %tmp.3;
+        bf %tmp.4 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_85_8_88_8_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_85_8_88_8_if_true:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_85_44_88_8_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc" 86 12 ]
+        symbol [ _processor %tmp.6 86 12 22 ];
+        %tmp.6 = getv ? :_processor;
+        symbol [ processAccelBatch %tmp.7 86 23 40 ];
+        %tmp.7 = getv function %tmp.6 :processAccelBatch;
+        %tmp.8 = lgetv %data;
+        symbol [ data %tmp.8 86 41 45 ];
+        symbol [ accelerometerData %tmp.9 86 46 63 ];
+        %tmp.9 = getv %tmp.8 :accelerometerData;
+        invoke %tmp.6 %tmp.7(%tmp.9);
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc" 87 12 ]
+        symbol [ WatchUi %tmp.10 87 12 19 ];
+        %tmp.10 = getm $.Toybox.WatchUi;
+        symbol [ requestUpdate %tmp.11 87 20 33 ];
+        %tmp.11 = getv function %tmp.10 :requestUpdate;
+        invoke %tmp.10 %tmp.11();
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_85_44_88_8_stop:
+        goto @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_85_8_88_8_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_85_8_88_8_if_end:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_84_61_89_4_stop:
+    }
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc"; @line = 95; @symbol_functiondef = [_startGpsTimer,95,21,35]; ]
+    private
+    function _startGpsTimer() as Void {
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_95_46_98_4_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc" 96 8 ]
+        symbol [ Timer %tmp.3 96 24 29 ];
+        %tmp.3 = getm $.Toybox.Timer;
+        symbol [ Timer %tmp.4 96 30 35 ];
+        %tmp.4 = getv function ? %tmp.3 :Timer;
+        %tmp.1 = newc %tmp.4 ();
+        symbol [ _gpsTimer ? 96 8 17 ];
+        putv self :_gpsTimer %tmp.1;
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc" 97 8 ]
+        symbol [ _gpsTimer %tmp.6 97 8 17 ];
+        %tmp.6 = getv ? :_gpsTimer;
+        symbol [ start %tmp.7 97 18 23 ];
+        %tmp.7 = getv function %tmp.6 :start;
+        %tmp.8 = self;
+        symbol [ method %tmp.9 97 24 30 ];
+        %tmp.9 = getv function %tmp.8 :method;
+        %tmp.11 = const :onGpsTick;
+        symbol [ onGpsTick %tmp.11 97 32 41 const ];
+        %tmp.12 = invoke %tmp.8 %tmp.9(%tmp.11);
+        %tmp.13 = 1000;
+        %tmp.14 = true;
+        invoke %tmp.6 %tmp.7(%tmp.12, %tmp.13, %tmp.14);
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_95_46_98_4_stop:
+    }
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc"; @line = 100; @symbol_functiondef = [onGpsTick,100,13,22]; ]
+    function onGpsTick() as Void {
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_100_33_111_4_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc" 101 8 ]
+        try @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_101_8_110_8_beginTry @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_101_8_110_8_endTry @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_101_8_110_8_catch @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_101_8_110_8_finally;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_101_8_110_8_beginTry:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_101_12_108_8_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc" 102 12 ]
+        [ "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_101_12_108_8_start" "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_101_12_108_8_stop" ]
+        %actInfo.1 = local;
+        symbol [ actInfo %actInfo.1 102 16 23 ];
+        symbol [ Activity %tmp.1 102 26 34 ];
+        %tmp.1 = getm $.Toybox.Activity;
+        symbol [ getActivityInfo %tmp.2 102 35 50 ];
+        %tmp.2 = getv function %tmp.1 :getActivityInfo;
+        %tmp.3 = invoke %tmp.1 %tmp.2();
+        lputv %actInfo.1 %tmp.3;
+        symbol [ actInfo %actInfo.1 102 16 23 ];
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc" 103 12 ]
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_103_12_107_12_if_stmt:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_103_16_103_59_begin:
+        %tmp.4 = lgetv %actInfo.1;
+        symbol [ actInfo %tmp.4 103 16 23 ];
+        %tmp.5 = null;
+        %tmp.6 = ne %tmp.4 %tmp.5;
+        bf %tmp.6 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_103_12_107_12_if_else_false;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_103_35_103_59_true:
+        %tmp.7 = lgetv %actInfo.1;
+        symbol [ actInfo %tmp.7 103 35 42 ];
+        %tmp.8 = as %tmp.7 { (!Null) };
+        symbol [ currentSpeed %tmp.9 103 43 55 ];
+        %tmp.9 = getv %tmp.8 :currentSpeed;
+        %tmp.10 = null;
+        %tmp.11 = ne %tmp.9 %tmp.10;
+        push %tmp.11;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_103_35_103_59_end:
+        %tmp.12 = phi [%tmp.6 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_103_16_103_59_begin] [%tmp.11 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_103_35_103_59_true] [%tmp.12 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_103_35_103_59_end];
+        bf %tmp.12 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_103_12_107_12_if_else_false;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_103_12_107_12_if_true:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_103_65_105_12_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc" 104 16 ]
+        symbol [ _processor %tmp.14 104 16 26 ];
+        %tmp.14 = getv ? :_processor;
+        symbol [ updateGpsSpeed %tmp.15 104 27 41 ];
+        %tmp.15 = getv function %tmp.14 :updateGpsSpeed;
+        %tmp.16 = lgetv %actInfo.1;
+        symbol [ actInfo %tmp.16 104 42 49 ];
+        %tmp.17 = as %tmp.16 { (!Null) };
+        symbol [ currentSpeed %tmp.18 104 50 62 ];
+        %tmp.18 = getv %tmp.17 :currentSpeed;
+        symbol [ toFloat %tmp.19 104 63 70 ];
+        %tmp.19 = getv function %tmp.18 :toFloat;
+        %tmp.20 = invoke %tmp.18 %tmp.19();
+        invoke %tmp.14 %tmp.15(%tmp.20);
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_103_65_105_12_stop:
+        goto @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_103_12_107_12_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_103_12_107_12_if_else_false:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_105_19_107_12_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc" 106 16 ]
+        symbol [ _processor %tmp.22 106 16 26 ];
+        %tmp.22 = getv ? :_processor;
+        symbol [ updateGpsSpeed %tmp.23 106 27 41 ];
+        %tmp.23 = getv function %tmp.22 :updateGpsSpeed;
+        %tmp.24 = -1.0f;
+        invoke %tmp.22 %tmp.23(%tmp.24);
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_105_19_107_12_stop:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_103_12_107_12_if_end:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_101_12_108_8_stop:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_101_8_110_8_endTry:
+        jsr @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_101_8_110_8_finally;
+        goto @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_101_8_110_8_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_101_8_110_8_catch:
+        %tmp.25 = exception;
+        push %tmp.25;
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc" 108 10 ]
+        %tmp.26 = dup %tmp.25;
+        symbol [ Lang %tmp.27 108 30 34 ];
+        %tmp.27 = getm $.Toybox.Lang;
+        symbol [ Exception %tmp.28 108 35 44 ];
+        %tmp.28 = getv %tmp.27 :Exception;
+        %tmp.29 = isa %tmp.26 %tmp.28;
+        bf %tmp.29 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_108_10_110_8_next;
+        [ "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_101_8_110_8_catch" "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_108_10_110_8_next" ]
+        %e.2 = local;
+        symbol [ e %e.2 108 17 18 ];
+        %tmp.30 = dup %tmp.25;
+        %tmp.31 = as %tmp.30 Lang.Exception;
+        lputv %e.2 %tmp.31;
+        symbol [ e %e.2 108 17 18 ];
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_108_46_110_8_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc" 109 12 ]
+        symbol [ _processor %tmp.33 109 12 22 ];
+        %tmp.33 = getv ? :_processor;
+        symbol [ updateGpsSpeed %tmp.34 109 23 37 ];
+        %tmp.34 = getv function %tmp.33 :updateGpsSpeed;
+        %tmp.35 = -1.0f;
+        invoke %tmp.33 %tmp.34(%tmp.35);
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_108_46_110_8_stop:
+        jsr @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_101_8_110_8_finally;
+        pop;
+        goto @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_101_8_110_8_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_108_10_110_8_next:
+        try @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_101_8_110_8_catch @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_108_10_110_8_next @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_108_10_110_8_next @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_101_8_110_8_finally;
+        jsr @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_101_8_110_8_finally;
+        throw %tmp.25;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_101_8_110_8_finally:
+        jsrret;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_101_8_110_8_end:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_speedcoachApp_mc_100_33_111_4_stop:
+    }
+}
+[ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/speedcoachApp.mc"; @line = 1; ]
+<init> {
+}

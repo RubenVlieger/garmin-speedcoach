@@ -1,0 +1,1546 @@
+[ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc"; @line = 28; @symbol_usingdef<0> = [Toybox,28,6,12]; @symbol_usingdef<1> = [System,28,13,19]; @symbol_usingAlias = [System,28,23,29]; ]
+using Toybox.System as :System;
+[ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc"; @line = 29; @symbol_importdef<0> = [Toybox,29,7,13]; @symbol_importdef<1> = [Lang,29,14,18]; ]
+import Toybox.Lang;
+[ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc"; @line = 31; @symbol_classdef = [AxisCalibrator,31,6,20]; ]
+class AxisCalibrator {
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc"; @line = 31; ]
+    <init> {
+    }
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc"; @line = 31; ]
+    static
+    <init> {
+    }
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc"; @line = 34; @position = 17; @symbol_constdef = [PHASE_GRAVITY,34,17,30]; ]
+    static
+    const PHASE_GRAVITY = 0;
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc"; @line = 35; @position = 17; @symbol_constdef = [PHASE_LEARNING,35,17,31]; ]
+    static
+    const PHASE_LEARNING = 1;
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc"; @line = 36; @position = 17; @symbol_constdef = [PHASE_LOCKED,36,17,29]; ]
+    static
+    const PHASE_LOCKED = 2;
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc"; @line = 37; @position = 17; @symbol_constdef = [PHASE_RECALIBRATE,37,17,34]; ]
+    static
+    const PHASE_RECALIBRATE = 3;
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc"; @line = 40; @position = 18; @symbol_constdef = [GRAVITY_SAMPLES_NEEDED,40,18,40]; ]
+    private
+    const GRAVITY_SAMPLES_NEEDED = 50;
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc"; @line = 41; @position = 18; @symbol_constdef = [RECAL_SAMPLES_NEEDED,41,18,38]; ]
+    private
+    const RECAL_SAMPLES_NEEDED = 38;
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc"; @line = 42; @position = 18; @symbol_constdef = [LEARNING_STROKES_NEEDED,42,18,41]; ]
+    private
+    const LEARNING_STROKES_NEEDED = 3;
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc"; @line = 46; @position = 18; @symbol_constdef = [GRAVITY_ADAPT_ALPHA,46,18,37]; ]
+    private
+    const GRAVITY_ADAPT_ALPHA = 0.001f;
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc"; @line = 47; @position = 18; @symbol_constdef = [QUIET_THRESHOLD_MS2,47,18,37]; ]
+    private
+    const QUIET_THRESHOLD_MS2 = 0.30f;
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc"; @line = 51; @position = 18; @symbol_constdef = [KNOCK_THRESHOLD_MS2,51,18,37]; ]
+    private
+    const KNOCK_THRESHOLD_MS2 = 2.5f;
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc"; @line = 52; @position = 18; @symbol_constdef = [KNOCK_CONFIRM_SAMPLES,52,18,39]; ]
+    private
+    const KNOCK_CONFIRM_SAMPLES = 8;
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc"; @line = 54; @position = 18; @symbol_constdef = [MG_TO_MS2,54,18,27]; ]
+    private
+    const MG_TO_MS2 = 0.00981f;
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc"; @line = 57; @position = 8; @symbol_vardef = [phase,57,8,13]; @symbol_type<0> = [Number,57,23,29]; ]
+    var phase as Number;
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc"; @line = 58; @position = 8; @symbol_vardef = [forwardAxis,58,8,19]; @symbol_type<0> = [Number,58,23,29]; ]
+    var forwardAxis as Number;
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc"; @line = 59; @position = 8; @symbol_vardef = [forwardSign,59,8,19]; @symbol_type<0> = [Float,59,23,28]; ]
+    var forwardSign as Float;
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc"; @line = 62; @position = 16; @symbol_vardef = [_grav,62,16,21]; @symbol_type<0> = [Array,62,31,36]; ]
+    private
+    var _grav as Array;
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc"; @line = 63; @position = 16; @symbol_vardef = [_gravAccum,63,16,26]; @symbol_type<0> = [Array,63,31,36]; ]
+    private
+    var _gravAccum as Array;
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc"; @line = 64; @position = 16; @symbol_vardef = [_gravCount,64,16,26]; @symbol_type<0> = [Number,64,31,37]; ]
+    private
+    var _gravCount as Number;
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc"; @line = 66; @position = 16; @symbol_vardef = [_axisMax,66,16,24]; @symbol_type<0> = [Array,66,31,36]; ]
+    private
+    var _axisMax as Array;
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc"; @line = 67; @position = 16; @symbol_vardef = [_axisMin,67,16,24]; @symbol_type<0> = [Array,67,31,36]; ]
+    private
+    var _axisMin as Array;
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc"; @line = 68; @position = 16; @symbol_vardef = [_learningStrokeCount,68,16,36]; @symbol_type<0> = [Number,68,40,46]; ]
+    private
+    var _learningStrokeCount as Number;
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc"; @line = 70; @position = 16; @symbol_vardef = [_knockCounter,70,16,29]; @symbol_type<0> = [Number,70,33,39]; ]
+    private
+    var _knockCounter as Number;
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc"; @line = 73; @symbol_functiondef = [initialize,73,13,23]; ]
+    function initialize() as Void {
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_73_26_87_4_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 74 8 ]
+        symbol [ PHASE_GRAVITY %tmp.2 74 22 35 ];
+        %tmp.2 = getv ? :PHASE_GRAVITY;
+        symbol [ phase ? 74 8 13 ];
+        putv self :phase %tmp.2;
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 75 8 ]
+        %tmp.3 = 0;
+        symbol [ forwardAxis ? 75 8 19 ];
+        putv self :forwardAxis %tmp.3;
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 76 8 ]
+        %tmp.4 = 1.0f;
+        symbol [ forwardSign ? 76 8 19 ];
+        putv self :forwardSign %tmp.4;
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 78 8 ]
+        %tmp.5 = newa 3;
+        %tmp.6 = 0.0f;
+        %tmp.7 = dup %tmp.5;
+        %tmp.8 = aputv %tmp.7 0 %tmp.6;
+        %tmp.9 = 0.0f;
+        %tmp.10 = dup %tmp.8;
+        %tmp.11 = aputv %tmp.10 1 %tmp.9;
+        %tmp.12 = 0.0f;
+        %tmp.13 = dup %tmp.11;
+        %tmp.14 = aputv %tmp.13 2 %tmp.12;
+        symbol [ _grav ? 78 8 13 ];
+        putv self :_grav %tmp.14;
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 79 8 ]
+        %tmp.15 = newa 3;
+        %tmp.16 = 0.0f;
+        %tmp.17 = dup %tmp.15;
+        %tmp.18 = aputv %tmp.17 0 %tmp.16;
+        %tmp.19 = 0.0f;
+        %tmp.20 = dup %tmp.18;
+        %tmp.21 = aputv %tmp.20 1 %tmp.19;
+        %tmp.22 = 0.0f;
+        %tmp.23 = dup %tmp.21;
+        %tmp.24 = aputv %tmp.23 2 %tmp.22;
+        symbol [ _gravAccum ? 79 8 18 ];
+        putv self :_gravAccum %tmp.24;
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 80 8 ]
+        %tmp.25 = 0;
+        symbol [ _gravCount ? 80 8 18 ];
+        putv self :_gravCount %tmp.25;
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 82 8 ]
+        %tmp.26 = newa 3;
+        %tmp.27 = -999.0f;
+        %tmp.28 = dup %tmp.26;
+        %tmp.29 = aputv %tmp.28 0 %tmp.27;
+        %tmp.30 = -999.0f;
+        %tmp.31 = dup %tmp.29;
+        %tmp.32 = aputv %tmp.31 1 %tmp.30;
+        %tmp.33 = -999.0f;
+        %tmp.34 = dup %tmp.32;
+        %tmp.35 = aputv %tmp.34 2 %tmp.33;
+        symbol [ _axisMax ? 82 8 16 ];
+        putv self :_axisMax %tmp.35;
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 83 8 ]
+        %tmp.36 = newa 3;
+        %tmp.37 = 999.0f;
+        %tmp.38 = dup %tmp.36;
+        %tmp.39 = aputv %tmp.38 0 %tmp.37;
+        %tmp.40 = 999.0f;
+        %tmp.41 = dup %tmp.39;
+        %tmp.42 = aputv %tmp.41 1 %tmp.40;
+        %tmp.43 = 999.0f;
+        %tmp.44 = dup %tmp.42;
+        %tmp.45 = aputv %tmp.44 2 %tmp.43;
+        symbol [ _axisMin ? 83 8 16 ];
+        putv self :_axisMin %tmp.45;
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 84 8 ]
+        %tmp.46 = 0;
+        symbol [ _learningStrokeCount ? 84 8 28 ];
+        putv self :_learningStrokeCount %tmp.46;
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 86 8 ]
+        %tmp.47 = 0;
+        symbol [ _knockCounter ? 86 8 21 ];
+        putv self :_knockCounter %tmp.47;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_73_26_87_4_stop:
+    }
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc"; @line = 103; @symbol_functiondef = [processSample,103,13,26]; @symbol_param<0> = [rawMg_x,103,27,34]; @symbol_param<0>_type<0> = [Number,103,38,44]; @symbol_param<1> = [rawMg_y,103,46,53]; @symbol_param<1>_type<0> = [Number,103,57,63]; @symbol_param<2> = [rawMg_z,103,65,72]; @symbol_param<2>_type<0> = [Number,103,76,82]; @symbol_return<0> = [CalibResult,103,87,98]; ]
+    function processSample(rawMg_x as Number, rawMg_y as Number, rawMg_z as Number) as CalibResult {
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_103_99_118_4_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 104 8 ]
+        [ "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_103_99_118_4_start" "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_103_99_118_4_stop" ]
+        %ax.1 = local;
+        symbol [ ax %ax.1 104 12 14 ];
+        %tmp.1 = lgetv %rawMg_x;
+        symbol [ rawMg_x %tmp.1 104 17 24 ];
+        symbol [ MG_TO_MS2 %tmp.3 104 27 36 ];
+        %tmp.3 = getv ? :MG_TO_MS2;
+        %tmp.4 = mul %tmp.1 %tmp.3;
+        lputv %ax.1 %tmp.4;
+        symbol [ ax %ax.1 104 12 14 ];
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 105 8 ]
+        [ "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_103_99_118_4_start" "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_103_99_118_4_stop" ]
+        %ay.2 = local;
+        symbol [ ay %ay.2 105 12 14 ];
+        %tmp.5 = lgetv %rawMg_y;
+        symbol [ rawMg_y %tmp.5 105 17 24 ];
+        symbol [ MG_TO_MS2 %tmp.7 105 27 36 ];
+        %tmp.7 = getv ? :MG_TO_MS2;
+        %tmp.8 = mul %tmp.5 %tmp.7;
+        lputv %ay.2 %tmp.8;
+        symbol [ ay %ay.2 105 12 14 ];
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 106 8 ]
+        [ "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_103_99_118_4_start" "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_103_99_118_4_stop" ]
+        %az.3 = local;
+        symbol [ az %az.3 106 12 14 ];
+        %tmp.9 = lgetv %rawMg_z;
+        symbol [ rawMg_z %tmp.9 106 17 24 ];
+        symbol [ MG_TO_MS2 %tmp.11 106 27 36 ];
+        %tmp.11 = getv ? :MG_TO_MS2;
+        %tmp.12 = mul %tmp.9 %tmp.11;
+        lputv %az.3 %tmp.12;
+        symbol [ az %az.3 106 12 14 ];
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 108 8 ]
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_108_8_110_8_if_stmt:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_108_12_108_47_begin:
+        symbol [ phase %tmp.14 108 12 17 ];
+        %tmp.14 = getv ? :phase;
+        symbol [ PHASE_GRAVITY %tmp.16 108 21 34 ];
+        %tmp.16 = getv ? :PHASE_GRAVITY;
+        %tmp.17 = eq %tmp.14 %tmp.16;
+        bt %tmp.17 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_108_8_110_8_if_true;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_108_38_108_47_false:
+        symbol [ phase %tmp.19 108 38 43 ];
+        %tmp.19 = getv ? :phase;
+        symbol [ PHASE_RECALIBRATE %tmp.21 108 47 64 ];
+        %tmp.21 = getv ? :PHASE_RECALIBRATE;
+        %tmp.22 = eq %tmp.19 %tmp.21;
+        push %tmp.22;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_108_38_108_47_end:
+        %tmp.23 = phi [%tmp.17 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_108_12_108_47_begin] [%tmp.22 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_108_38_108_47_false] [%tmp.23 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_108_38_108_47_end];
+        bf %tmp.23 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_108_8_110_8_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_108_8_110_8_if_true:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_108_66_110_8_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 109 12 ]
+        %tmp.24 = self;
+        symbol [ _handleGravityPhase %tmp.25 109 19 38 ];
+        %tmp.25 = getv function %tmp.24 :_handleGravityPhase;
+        %tmp.26 = lgetv %ax.1;
+        symbol [ ax %tmp.26 109 39 41 ];
+        %tmp.27 = lgetv %ay.2;
+        symbol [ ay %tmp.27 109 43 45 ];
+        %tmp.28 = lgetv %az.3;
+        symbol [ az %tmp.28 109 47 49 ];
+        %tmp.29 = invoke %tmp.24 %tmp.25(%tmp.26, %tmp.27, %tmp.28);
+        ret %tmp.29;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_108_66_110_8_stop:
+        goto @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_108_8_110_8_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_108_8_110_8_if_end:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 111 8 ]
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_111_8_113_8_if_stmt:
+        symbol [ phase %tmp.31 111 12 17 ];
+        %tmp.31 = getv ? :phase;
+        symbol [ PHASE_LEARNING %tmp.33 111 21 35 ];
+        %tmp.33 = getv ? :PHASE_LEARNING;
+        %tmp.34 = eq %tmp.31 %tmp.33;
+        bf %tmp.34 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_111_8_113_8_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_111_8_113_8_if_true:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_111_37_113_8_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 112 12 ]
+        %tmp.35 = self;
+        symbol [ _handleLearningPhase %tmp.36 112 19 39 ];
+        %tmp.36 = getv function %tmp.35 :_handleLearningPhase;
+        %tmp.37 = lgetv %ax.1;
+        symbol [ ax %tmp.37 112 40 42 ];
+        %tmp.38 = lgetv %ay.2;
+        symbol [ ay %tmp.38 112 44 46 ];
+        %tmp.39 = lgetv %az.3;
+        symbol [ az %tmp.39 112 48 50 ];
+        %tmp.40 = invoke %tmp.35 %tmp.36(%tmp.37, %tmp.38, %tmp.39);
+        ret %tmp.40;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_111_37_113_8_stop:
+        goto @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_111_8_113_8_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_111_8_113_8_if_end:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 114 8 ]
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_114_8_116_8_if_stmt:
+        symbol [ phase %tmp.42 114 12 17 ];
+        %tmp.42 = getv ? :phase;
+        symbol [ PHASE_LOCKED %tmp.44 114 21 33 ];
+        %tmp.44 = getv ? :PHASE_LOCKED;
+        %tmp.45 = eq %tmp.42 %tmp.44;
+        bf %tmp.45 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_114_8_116_8_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_114_8_116_8_if_true:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_114_35_116_8_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 115 12 ]
+        %tmp.46 = self;
+        symbol [ _handleLockedPhase %tmp.47 115 19 37 ];
+        %tmp.47 = getv function %tmp.46 :_handleLockedPhase;
+        %tmp.48 = lgetv %ax.1;
+        symbol [ ax %tmp.48 115 38 40 ];
+        %tmp.49 = lgetv %ay.2;
+        symbol [ ay %tmp.49 115 42 44 ];
+        %tmp.50 = lgetv %az.3;
+        symbol [ az %tmp.50 115 46 48 ];
+        %tmp.51 = invoke %tmp.46 %tmp.47(%tmp.48, %tmp.49, %tmp.50);
+        ret %tmp.51;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_114_35_116_8_stop:
+        goto @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_114_8_116_8_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_114_8_116_8_if_end:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 117 8 ]
+        symbol [ CalibResult %tmp.55 117 19 30 ];
+        %tmp.55 = getv ? :CalibResult;
+        %tmp.56 = 0.0f;
+        %tmp.57 = false;
+        %tmp.52 = newc %tmp.55 (%tmp.56, %tmp.57);
+        ret %tmp.52;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_103_99_118_4_stop:
+    }
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc"; @line = 126; @symbol_functiondef = [notifyStrokeDetected,126,13,33]; ]
+    function notifyStrokeDetected() as Void {
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_126_44_134_4_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 127 8 ]
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_127_8_129_8_if_stmt:
+        symbol [ phase %tmp.2 127 12 17 ];
+        %tmp.2 = getv ? :phase;
+        symbol [ PHASE_LEARNING %tmp.4 127 21 35 ];
+        %tmp.4 = getv ? :PHASE_LEARNING;
+        %tmp.5 = ne %tmp.2 %tmp.4;
+        bf %tmp.5 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_127_8_129_8_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_127_8_129_8_if_true:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_127_37_129_8_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 128 12 ]
+        ret ?;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_127_37_129_8_stop:
+        goto @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_127_8_129_8_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_127_8_129_8_if_end:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 130 8 ]
+        symbol [ _learningStrokeCount %tmp.8 130 8 28 ];
+        %tmp.8 = getv ? :_learningStrokeCount;
+        %tmp.9 = add %tmp.8 1;
+        symbol [ _learningStrokeCount ? 130 8 28 ];
+        putv self :_learningStrokeCount dup %tmp.9;
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 131 8 ]
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_131_8_133_8_if_stmt:
+        symbol [ _learningStrokeCount %tmp.11 131 12 32 ];
+        %tmp.11 = getv ? :_learningStrokeCount;
+        symbol [ LEARNING_STROKES_NEEDED %tmp.13 131 36 59 ];
+        %tmp.13 = getv ? :LEARNING_STROKES_NEEDED;
+        %tmp.14 = gte %tmp.11 %tmp.13;
+        bf %tmp.14 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_131_8_133_8_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_131_8_133_8_if_true:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_131_61_133_8_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 132 12 ]
+        %tmp.15 = self;
+        symbol [ _lockAxis %tmp.16 132 12 21 ];
+        %tmp.16 = getv function %tmp.15 :_lockAxis;
+        invoke %tmp.15 %tmp.16();
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_131_61_133_8_stop:
+        goto @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_131_8_133_8_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_131_8_133_8_if_end:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_126_44_134_4_stop:
+    }
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc"; @line = 142; @symbol_functiondef = [triggerRecalibration,142,13,33]; ]
+    function triggerRecalibration() as Void {
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_142_44_150_4_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 143 8 ]
+        symbol [ PHASE_RECALIBRATE %tmp.2 143 23 40 ];
+        %tmp.2 = getv ? :PHASE_RECALIBRATE;
+        symbol [ phase ? 143 8 13 ];
+        putv self :phase %tmp.2;
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 144 8 ]
+        %tmp.3 = newa 3;
+        %tmp.4 = 0.0f;
+        %tmp.5 = dup %tmp.3;
+        %tmp.6 = aputv %tmp.5 0 %tmp.4;
+        %tmp.7 = 0.0f;
+        %tmp.8 = dup %tmp.6;
+        %tmp.9 = aputv %tmp.8 1 %tmp.7;
+        %tmp.10 = 0.0f;
+        %tmp.11 = dup %tmp.9;
+        %tmp.12 = aputv %tmp.11 2 %tmp.10;
+        symbol [ _gravAccum ? 144 8 18 ];
+        putv self :_gravAccum %tmp.12;
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 145 8 ]
+        %tmp.13 = 0;
+        symbol [ _gravCount ? 145 8 18 ];
+        putv self :_gravCount %tmp.13;
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 146 8 ]
+        %tmp.14 = newa 3;
+        %tmp.15 = -999.0f;
+        %tmp.16 = dup %tmp.14;
+        %tmp.17 = aputv %tmp.16 0 %tmp.15;
+        %tmp.18 = -999.0f;
+        %tmp.19 = dup %tmp.17;
+        %tmp.20 = aputv %tmp.19 1 %tmp.18;
+        %tmp.21 = -999.0f;
+        %tmp.22 = dup %tmp.20;
+        %tmp.23 = aputv %tmp.22 2 %tmp.21;
+        symbol [ _axisMax ? 146 8 16 ];
+        putv self :_axisMax %tmp.23;
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 147 8 ]
+        %tmp.24 = newa 3;
+        %tmp.25 = 999.0f;
+        %tmp.26 = dup %tmp.24;
+        %tmp.27 = aputv %tmp.26 0 %tmp.25;
+        %tmp.28 = 999.0f;
+        %tmp.29 = dup %tmp.27;
+        %tmp.30 = aputv %tmp.29 1 %tmp.28;
+        %tmp.31 = 999.0f;
+        %tmp.32 = dup %tmp.30;
+        %tmp.33 = aputv %tmp.32 2 %tmp.31;
+        symbol [ _axisMin ? 147 8 16 ];
+        putv self :_axisMin %tmp.33;
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 148 8 ]
+        %tmp.34 = 0;
+        symbol [ _learningStrokeCount ? 148 8 28 ];
+        putv self :_learningStrokeCount %tmp.34;
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 149 8 ]
+        %tmp.35 = 0;
+        symbol [ _knockCounter ? 149 8 21 ];
+        putv self :_knockCounter %tmp.35;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_142_44_150_4_stop:
+    }
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc"; @line = 155; @symbol_functiondef = [isReady,155,13,20]; @symbol_return<0> = [Boolean,155,26,33]; ]
+    function isReady() as Boolean {
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_155_34_157_4_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 156 8 ]
+        symbol [ phase %tmp.2 156 15 20 ];
+        %tmp.2 = getv ? :phase;
+        symbol [ PHASE_LOCKED %tmp.4 156 24 36 ];
+        %tmp.4 = getv ? :PHASE_LOCKED;
+        %tmp.5 = eq %tmp.2 %tmp.4;
+        ret %tmp.5;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_155_34_157_4_stop:
+    }
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc"; @line = 162; @symbol_functiondef = [getStatusString,162,13,28]; @symbol_return<0> = [String,162,34,40]; ]
+    function getStatusString() as String {
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_162_41_167_4_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 163 8 ]
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_163_8_163_66_if_stmt:
+        symbol [ phase %tmp.2 163 12 17 ];
+        %tmp.2 = getv ? :phase;
+        symbol [ PHASE_GRAVITY %tmp.4 163 21 34 ];
+        %tmp.4 = getv ? :PHASE_GRAVITY;
+        %tmp.5 = eq %tmp.2 %tmp.4;
+        bf %tmp.5 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_163_8_163_66_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_163_8_163_66_if_true:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_163_40_163_66_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 163 42 ]
+        %tmp.6 = "Hold still...";
+        ret %tmp.6;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_163_40_163_66_stop:
+        goto @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_163_8_163_66_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_163_8_163_66_if_end:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 164 8 ]
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_164_8_164_69_if_stmt:
+        symbol [ phase %tmp.8 164 12 17 ];
+        %tmp.8 = getv ? :phase;
+        symbol [ PHASE_LEARNING %tmp.10 164 21 35 ];
+        %tmp.10 = getv ? :PHASE_LEARNING;
+        %tmp.11 = eq %tmp.8 %tmp.10;
+        bf %tmp.11 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_164_8_164_69_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_164_8_164_69_if_true:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_164_40_164_69_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 164 42 ]
+        %tmp.12 = "Row 3 strokes...";
+        ret %tmp.12;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_164_40_164_69_stop:
+        goto @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_164_8_164_69_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_164_8_164_69_if_end:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 165 8 ]
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_165_8_165_70_if_stmt:
+        symbol [ phase %tmp.14 165 12 17 ];
+        %tmp.14 = getv ? :phase;
+        symbol [ PHASE_RECALIBRATE %tmp.16 165 21 38 ];
+        %tmp.16 = getv ? :PHASE_RECALIBRATE;
+        %tmp.17 = eq %tmp.14 %tmp.16;
+        bf %tmp.17 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_165_8_165_70_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_165_8_165_70_if_true:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_165_40_165_70_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 165 42 ]
+        %tmp.18 = "Re-calibrating...";
+        ret %tmp.18;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_165_40_165_70_stop:
+        goto @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_165_8_165_70_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_165_8_165_70_if_end:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 166 8 ]
+        %tmp.19 = "";
+        ret %tmp.19;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_162_41_167_4_stop:
+    }
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc"; @line = 173; @symbol_functiondef = [_handleGravityPhase,173,21,40]; @symbol_param<0> = [ax,173,41,43]; @symbol_param<0>_type<0> = [Float,173,47,52]; @symbol_param<1> = [ay,173,54,56]; @symbol_param<1>_type<0> = [Float,173,60,65]; @symbol_param<2> = [az,173,67,69]; @symbol_param<2>_type<0> = [Float,173,73,78]; @symbol_return<0> = [CalibResult,173,83,94]; ]
+    private
+    function _handleGravityPhase(ax as Float, ay as Float, az as Float) as CalibResult {
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_173_95_190_4_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 174 8 ]
+        symbol [ _gravAccum %tmp.1 174 8 18 ];
+        %tmp.1 = getv self :_gravAccum;
+        symbol [ _gravAccum %tmp.3 174 24 34 ];
+        %tmp.3 = getv ? :_gravAccum;
+        %tmp.4 = 0;
+        %tmp.5 = agetv %tmp.3 %tmp.4;
+        %tmp.6 = lgetv %ax;
+        symbol [ ax %tmp.6 174 40 42 ];
+        %tmp.7 = add %tmp.5 %tmp.6;
+        %tmp.8 = 0;
+        aputv %tmp.1 %tmp.8 %tmp.7;
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 175 8 ]
+        symbol [ _gravAccum %tmp.9 175 8 18 ];
+        %tmp.9 = getv self :_gravAccum;
+        symbol [ _gravAccum %tmp.11 175 24 34 ];
+        %tmp.11 = getv ? :_gravAccum;
+        %tmp.12 = 1;
+        %tmp.13 = agetv %tmp.11 %tmp.12;
+        %tmp.14 = lgetv %ay;
+        symbol [ ay %tmp.14 175 40 42 ];
+        %tmp.15 = add %tmp.13 %tmp.14;
+        %tmp.16 = 1;
+        aputv %tmp.9 %tmp.16 %tmp.15;
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 176 8 ]
+        symbol [ _gravAccum %tmp.17 176 8 18 ];
+        %tmp.17 = getv self :_gravAccum;
+        symbol [ _gravAccum %tmp.19 176 24 34 ];
+        %tmp.19 = getv ? :_gravAccum;
+        %tmp.20 = 2;
+        %tmp.21 = agetv %tmp.19 %tmp.20;
+        %tmp.22 = lgetv %az;
+        symbol [ az %tmp.22 176 40 42 ];
+        %tmp.23 = add %tmp.21 %tmp.22;
+        %tmp.24 = 2;
+        aputv %tmp.17 %tmp.24 %tmp.23;
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 177 8 ]
+        symbol [ _gravCount %tmp.27 177 8 18 ];
+        %tmp.27 = getv ? :_gravCount;
+        %tmp.28 = add %tmp.27 1;
+        symbol [ _gravCount ? 177 8 18 ];
+        putv self :_gravCount dup %tmp.28;
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 179 8 ]
+        [ "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_173_95_190_4_start" "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_173_95_190_4_stop" ]
+        %needed.1 = local;
+        symbol [ needed %needed.1 179 12 18 ];
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_179_21_179_75_begin:
+        symbol [ phase %tmp.30 179 22 27 ];
+        %tmp.30 = getv ? :phase;
+        symbol [ PHASE_RECALIBRATE %tmp.32 179 31 48 ];
+        %tmp.32 = getv ? :PHASE_RECALIBRATE;
+        %tmp.33 = eq %tmp.30 %tmp.32;
+        bf %tmp.33 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_179_21_179_75_else_false;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_179_21_179_75_true:
+        symbol [ RECAL_SAMPLES_NEEDED %tmp.35 179 52 72 ];
+        %tmp.35 = getv ? :RECAL_SAMPLES_NEEDED;
+        push %tmp.35;
+        goto @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_179_21_179_75_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_179_21_179_75_else_false:
+        symbol [ GRAVITY_SAMPLES_NEEDED %tmp.37 179 75 97 ];
+        %tmp.37 = getv ? :GRAVITY_SAMPLES_NEEDED;
+        push %tmp.37;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_179_21_179_75_end:
+        %tmp.38 = phi [%tmp.33 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_179_21_179_75_begin] [%tmp.35 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_179_21_179_75_true] [%tmp.37 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_179_21_179_75_else_false] [%tmp.38 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_179_21_179_75_end];
+        lputv %needed.1 %tmp.38;
+        symbol [ needed %needed.1 179 12 18 ];
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 181 8 ]
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_181_8_187_8_if_stmt:
+        symbol [ _gravCount %tmp.40 181 12 22 ];
+        %tmp.40 = getv ? :_gravCount;
+        %tmp.41 = lgetv %needed.1;
+        symbol [ needed %tmp.41 181 26 32 ];
+        %tmp.42 = gte %tmp.40 %tmp.41;
+        bf %tmp.42 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_181_8_187_8_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_181_8_187_8_if_true:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_181_34_187_8_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 182 12 ]
+        [ "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_181_34_187_8_start" "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_181_34_187_8_stop" ]
+        %n.2 = local;
+        symbol [ n %n.2 182 16 17 ];
+        symbol [ _gravCount %tmp.44 182 20 30 ];
+        %tmp.44 = getv ? :_gravCount;
+        symbol [ toFloat %tmp.45 182 31 38 ];
+        %tmp.45 = getv function %tmp.44 :toFloat;
+        %tmp.46 = invoke %tmp.44 %tmp.45();
+        lputv %n.2 %tmp.46;
+        symbol [ n %n.2 182 16 17 ];
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 183 12 ]
+        symbol [ _grav %tmp.47 183 12 17 ];
+        %tmp.47 = getv self :_grav;
+        symbol [ _gravAccum %tmp.49 183 23 33 ];
+        %tmp.49 = getv ? :_gravAccum;
+        %tmp.50 = 0;
+        %tmp.51 = agetv %tmp.49 %tmp.50;
+        %tmp.52 = lgetv %n.2;
+        symbol [ n %tmp.52 183 39 40 ];
+        %tmp.53 = div %tmp.51 %tmp.52;
+        %tmp.54 = 0;
+        aputv %tmp.47 %tmp.54 %tmp.53;
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 184 12 ]
+        symbol [ _grav %tmp.55 184 12 17 ];
+        %tmp.55 = getv self :_grav;
+        symbol [ _gravAccum %tmp.57 184 23 33 ];
+        %tmp.57 = getv ? :_gravAccum;
+        %tmp.58 = 1;
+        %tmp.59 = agetv %tmp.57 %tmp.58;
+        %tmp.60 = lgetv %n.2;
+        symbol [ n %tmp.60 184 39 40 ];
+        %tmp.61 = div %tmp.59 %tmp.60;
+        %tmp.62 = 1;
+        aputv %tmp.55 %tmp.62 %tmp.61;
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 185 12 ]
+        symbol [ _grav %tmp.63 185 12 17 ];
+        %tmp.63 = getv self :_grav;
+        symbol [ _gravAccum %tmp.65 185 23 33 ];
+        %tmp.65 = getv ? :_gravAccum;
+        %tmp.66 = 2;
+        %tmp.67 = agetv %tmp.65 %tmp.66;
+        %tmp.68 = lgetv %n.2;
+        symbol [ n %tmp.68 185 39 40 ];
+        %tmp.69 = div %tmp.67 %tmp.68;
+        %tmp.70 = 2;
+        aputv %tmp.63 %tmp.70 %tmp.69;
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 186 12 ]
+        symbol [ PHASE_LEARNING %tmp.72 186 20 34 ];
+        %tmp.72 = getv ? :PHASE_LEARNING;
+        symbol [ phase ? 186 12 17 ];
+        putv self :phase %tmp.72;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_181_34_187_8_stop:
+        goto @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_181_8_187_8_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_181_8_187_8_if_end:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 189 8 ]
+        symbol [ CalibResult %tmp.76 189 19 30 ];
+        %tmp.76 = getv ? :CalibResult;
+        %tmp.77 = 0.0f;
+        %tmp.78 = false;
+        %tmp.73 = newc %tmp.76 (%tmp.77, %tmp.78);
+        ret %tmp.73;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_173_95_190_4_stop:
+    }
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc"; @line = 192; @symbol_functiondef = [_handleLearningPhase,192,21,41]; @symbol_param<0> = [ax,192,42,44]; @symbol_param<0>_type<0> = [Float,192,48,53]; @symbol_param<1> = [ay,192,55,57]; @symbol_param<1>_type<0> = [Float,192,61,66]; @symbol_param<2> = [az,192,68,70]; @symbol_param<2>_type<0> = [Float,192,74,79]; @symbol_return<0> = [CalibResult,192,84,95]; ]
+    private
+    function _handleLearningPhase(ax as Float, ay as Float, az as Float) as CalibResult {
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_192_96_218_4_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 194 8 ]
+        [ "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_192_96_218_4_start" "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_192_96_218_4_stop" ]
+        %lx.1 = local;
+        symbol [ lx %lx.1 194 12 14 ];
+        %tmp.1 = lgetv %ax;
+        symbol [ ax %tmp.1 194 17 19 ];
+        symbol [ _grav %tmp.3 194 23 28 ];
+        %tmp.3 = getv ? :_grav;
+        %tmp.4 = 0;
+        %tmp.5 = agetv %tmp.3 %tmp.4;
+        %tmp.6 = as %tmp.5 Float;
+        symbol [ Float %tmp.6 194 35 40 ];
+        %tmp.7 = sub %tmp.1 %tmp.6;
+        lputv %lx.1 %tmp.7;
+        symbol [ lx %lx.1 194 12 14 ];
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 195 8 ]
+        [ "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_192_96_218_4_start" "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_192_96_218_4_stop" ]
+        %ly.2 = local;
+        symbol [ ly %ly.2 195 12 14 ];
+        %tmp.8 = lgetv %ay;
+        symbol [ ay %tmp.8 195 17 19 ];
+        symbol [ _grav %tmp.10 195 23 28 ];
+        %tmp.10 = getv ? :_grav;
+        %tmp.11 = 1;
+        %tmp.12 = agetv %tmp.10 %tmp.11;
+        %tmp.13 = as %tmp.12 Float;
+        symbol [ Float %tmp.13 195 35 40 ];
+        %tmp.14 = sub %tmp.8 %tmp.13;
+        lputv %ly.2 %tmp.14;
+        symbol [ ly %ly.2 195 12 14 ];
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 196 8 ]
+        [ "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_192_96_218_4_start" "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_192_96_218_4_stop" ]
+        %lz.3 = local;
+        symbol [ lz %lz.3 196 12 14 ];
+        %tmp.15 = lgetv %az;
+        symbol [ az %tmp.15 196 17 19 ];
+        symbol [ _grav %tmp.17 196 23 28 ];
+        %tmp.17 = getv ? :_grav;
+        %tmp.18 = 2;
+        %tmp.19 = agetv %tmp.17 %tmp.18;
+        %tmp.20 = as %tmp.19 Float;
+        symbol [ Float %tmp.20 196 35 40 ];
+        %tmp.21 = sub %tmp.15 %tmp.20;
+        lputv %lz.3 %tmp.21;
+        symbol [ lz %lz.3 196 12 14 ];
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 199 8 ]
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_199_8_199_61_if_stmt:
+        %tmp.22 = lgetv %lx.1;
+        symbol [ lx %tmp.22 199 12 14 ];
+        symbol [ _axisMax %tmp.24 199 18 26 ];
+        %tmp.24 = getv ? :_axisMax;
+        %tmp.25 = 0;
+        %tmp.26 = agetv %tmp.24 %tmp.25;
+        %tmp.27 = as %tmp.26 Float;
+        symbol [ Float %tmp.27 199 33 38 ];
+        %tmp.28 = gt %tmp.22 %tmp.27;
+        bf %tmp.28 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_199_8_199_61_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_199_8_199_61_if_true:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_199_41_199_61_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 199 43 ]
+        symbol [ _axisMax %tmp.29 199 43 51 ];
+        %tmp.29 = getv self :_axisMax;
+        %tmp.30 = lgetv %lx.1;
+        symbol [ lx %tmp.30 199 57 59 ];
+        %tmp.31 = 0;
+        aputv %tmp.29 %tmp.31 %tmp.30;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_199_41_199_61_stop:
+        goto @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_199_8_199_61_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_199_8_199_61_if_end:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 200 8 ]
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_200_8_200_61_if_stmt:
+        %tmp.32 = lgetv %ly.2;
+        symbol [ ly %tmp.32 200 12 14 ];
+        symbol [ _axisMax %tmp.34 200 18 26 ];
+        %tmp.34 = getv ? :_axisMax;
+        %tmp.35 = 1;
+        %tmp.36 = agetv %tmp.34 %tmp.35;
+        %tmp.37 = as %tmp.36 Float;
+        symbol [ Float %tmp.37 200 33 38 ];
+        %tmp.38 = gt %tmp.32 %tmp.37;
+        bf %tmp.38 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_200_8_200_61_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_200_8_200_61_if_true:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_200_41_200_61_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 200 43 ]
+        symbol [ _axisMax %tmp.39 200 43 51 ];
+        %tmp.39 = getv self :_axisMax;
+        %tmp.40 = lgetv %ly.2;
+        symbol [ ly %tmp.40 200 57 59 ];
+        %tmp.41 = 1;
+        aputv %tmp.39 %tmp.41 %tmp.40;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_200_41_200_61_stop:
+        goto @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_200_8_200_61_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_200_8_200_61_if_end:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 201 8 ]
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_201_8_201_61_if_stmt:
+        %tmp.42 = lgetv %lz.3;
+        symbol [ lz %tmp.42 201 12 14 ];
+        symbol [ _axisMax %tmp.44 201 18 26 ];
+        %tmp.44 = getv ? :_axisMax;
+        %tmp.45 = 2;
+        %tmp.46 = agetv %tmp.44 %tmp.45;
+        %tmp.47 = as %tmp.46 Float;
+        symbol [ Float %tmp.47 201 33 38 ];
+        %tmp.48 = gt %tmp.42 %tmp.47;
+        bf %tmp.48 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_201_8_201_61_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_201_8_201_61_if_true:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_201_41_201_61_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 201 43 ]
+        symbol [ _axisMax %tmp.49 201 43 51 ];
+        %tmp.49 = getv self :_axisMax;
+        %tmp.50 = lgetv %lz.3;
+        symbol [ lz %tmp.50 201 57 59 ];
+        %tmp.51 = 2;
+        aputv %tmp.49 %tmp.51 %tmp.50;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_201_41_201_61_stop:
+        goto @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_201_8_201_61_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_201_8_201_61_if_end:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 202 8 ]
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_202_8_202_61_if_stmt:
+        %tmp.52 = lgetv %lx.1;
+        symbol [ lx %tmp.52 202 12 14 ];
+        symbol [ _axisMin %tmp.54 202 18 26 ];
+        %tmp.54 = getv ? :_axisMin;
+        %tmp.55 = 0;
+        %tmp.56 = agetv %tmp.54 %tmp.55;
+        %tmp.57 = as %tmp.56 Float;
+        symbol [ Float %tmp.57 202 33 38 ];
+        %tmp.58 = lt %tmp.52 %tmp.57;
+        bf %tmp.58 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_202_8_202_61_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_202_8_202_61_if_true:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_202_41_202_61_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 202 43 ]
+        symbol [ _axisMin %tmp.59 202 43 51 ];
+        %tmp.59 = getv self :_axisMin;
+        %tmp.60 = lgetv %lx.1;
+        symbol [ lx %tmp.60 202 57 59 ];
+        %tmp.61 = 0;
+        aputv %tmp.59 %tmp.61 %tmp.60;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_202_41_202_61_stop:
+        goto @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_202_8_202_61_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_202_8_202_61_if_end:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 203 8 ]
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_203_8_203_61_if_stmt:
+        %tmp.62 = lgetv %ly.2;
+        symbol [ ly %tmp.62 203 12 14 ];
+        symbol [ _axisMin %tmp.64 203 18 26 ];
+        %tmp.64 = getv ? :_axisMin;
+        %tmp.65 = 1;
+        %tmp.66 = agetv %tmp.64 %tmp.65;
+        %tmp.67 = as %tmp.66 Float;
+        symbol [ Float %tmp.67 203 33 38 ];
+        %tmp.68 = lt %tmp.62 %tmp.67;
+        bf %tmp.68 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_203_8_203_61_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_203_8_203_61_if_true:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_203_41_203_61_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 203 43 ]
+        symbol [ _axisMin %tmp.69 203 43 51 ];
+        %tmp.69 = getv self :_axisMin;
+        %tmp.70 = lgetv %ly.2;
+        symbol [ ly %tmp.70 203 57 59 ];
+        %tmp.71 = 1;
+        aputv %tmp.69 %tmp.71 %tmp.70;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_203_41_203_61_stop:
+        goto @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_203_8_203_61_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_203_8_203_61_if_end:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 204 8 ]
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_204_8_204_61_if_stmt:
+        %tmp.72 = lgetv %lz.3;
+        symbol [ lz %tmp.72 204 12 14 ];
+        symbol [ _axisMin %tmp.74 204 18 26 ];
+        %tmp.74 = getv ? :_axisMin;
+        %tmp.75 = 2;
+        %tmp.76 = agetv %tmp.74 %tmp.75;
+        %tmp.77 = as %tmp.76 Float;
+        symbol [ Float %tmp.77 204 33 38 ];
+        %tmp.78 = lt %tmp.72 %tmp.77;
+        bf %tmp.78 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_204_8_204_61_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_204_8_204_61_if_true:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_204_41_204_61_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 204 43 ]
+        symbol [ _axisMin %tmp.79 204 43 51 ];
+        %tmp.79 = getv self :_axisMin;
+        %tmp.80 = lgetv %lz.3;
+        symbol [ lz %tmp.80 204 57 59 ];
+        %tmp.81 = 2;
+        aputv %tmp.79 %tmp.81 %tmp.80;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_204_41_204_61_stop:
+        goto @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_204_8_204_61_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_204_8_204_61_if_end:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 207 8 ]
+        [ "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_192_96_218_4_start" "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_192_96_218_4_stop" ]
+        %pp0.4 = local;
+        symbol [ pp0 %pp0.4 207 12 15 ];
+        symbol [ _axisMax %tmp.83 207 19 27 ];
+        %tmp.83 = getv ? :_axisMax;
+        %tmp.84 = 0;
+        %tmp.85 = agetv %tmp.83 %tmp.84;
+        %tmp.86 = as %tmp.85 Float;
+        symbol [ Float %tmp.86 207 34 39 ];
+        symbol [ _axisMin %tmp.88 207 44 52 ];
+        %tmp.88 = getv ? :_axisMin;
+        %tmp.89 = 0;
+        %tmp.90 = agetv %tmp.88 %tmp.89;
+        %tmp.91 = as %tmp.90 Float;
+        symbol [ Float %tmp.91 207 59 64 ];
+        %tmp.92 = sub %tmp.86 %tmp.91;
+        lputv %pp0.4 %tmp.92;
+        symbol [ pp0 %pp0.4 207 12 15 ];
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 208 8 ]
+        [ "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_192_96_218_4_start" "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_192_96_218_4_stop" ]
+        %pp1.5 = local;
+        symbol [ pp1 %pp1.5 208 12 15 ];
+        symbol [ _axisMax %tmp.94 208 19 27 ];
+        %tmp.94 = getv ? :_axisMax;
+        %tmp.95 = 1;
+        %tmp.96 = agetv %tmp.94 %tmp.95;
+        %tmp.97 = as %tmp.96 Float;
+        symbol [ Float %tmp.97 208 34 39 ];
+        symbol [ _axisMin %tmp.99 208 44 52 ];
+        %tmp.99 = getv ? :_axisMin;
+        %tmp.100 = 1;
+        %tmp.101 = agetv %tmp.99 %tmp.100;
+        %tmp.102 = as %tmp.101 Float;
+        symbol [ Float %tmp.102 208 59 64 ];
+        %tmp.103 = sub %tmp.97 %tmp.102;
+        lputv %pp1.5 %tmp.103;
+        symbol [ pp1 %pp1.5 208 12 15 ];
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 209 8 ]
+        [ "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_192_96_218_4_start" "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_192_96_218_4_stop" ]
+        %pp2.6 = local;
+        symbol [ pp2 %pp2.6 209 12 15 ];
+        symbol [ _axisMax %tmp.105 209 19 27 ];
+        %tmp.105 = getv ? :_axisMax;
+        %tmp.106 = 2;
+        %tmp.107 = agetv %tmp.105 %tmp.106;
+        %tmp.108 = as %tmp.107 Float;
+        symbol [ Float %tmp.108 209 34 39 ];
+        symbol [ _axisMin %tmp.110 209 44 52 ];
+        %tmp.110 = getv ? :_axisMin;
+        %tmp.111 = 2;
+        %tmp.112 = agetv %tmp.110 %tmp.111;
+        %tmp.113 = as %tmp.112 Float;
+        symbol [ Float %tmp.113 209 59 64 ];
+        %tmp.114 = sub %tmp.108 %tmp.113;
+        lputv %pp2.6 %tmp.114;
+        symbol [ pp2 %pp2.6 209 12 15 ];
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 211 8 ]
+        [ "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_192_96_218_4_start" "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_192_96_218_4_stop" ]
+        %tentative.7 = local;
+        symbol [ tentative %tentative.7 211 12 21 ];
+        %tmp.115 = lgetv %lx.1;
+        symbol [ lx %tmp.115 211 24 26 ];
+        lputv %tentative.7 %tmp.115;
+        symbol [ tentative %tentative.7 211 12 21 ];
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 212 8 ]
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_212_8_212_55_if_stmt:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_212_12_212_32_begin:
+        %tmp.116 = lgetv %pp1.5;
+        symbol [ pp1 %tmp.116 212 12 15 ];
+        %tmp.117 = lgetv %pp0.4;
+        symbol [ pp0 %tmp.117 212 18 21 ];
+        %tmp.118 = gt %tmp.116 %tmp.117;
+        bf %tmp.118 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_212_8_212_55_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_212_25_212_32_true:
+        %tmp.119 = lgetv %pp1.5;
+        symbol [ pp1 %tmp.119 212 25 28 ];
+        %tmp.120 = lgetv %pp2.6;
+        symbol [ pp2 %tmp.120 212 32 35 ];
+        %tmp.121 = gte %tmp.119 %tmp.120;
+        push %tmp.121;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_212_25_212_32_end:
+        %tmp.122 = phi [%tmp.118 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_212_12_212_32_begin] [%tmp.121 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_212_25_212_32_true] [%tmp.122 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_212_25_212_32_end];
+        bf %tmp.122 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_212_8_212_55_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_212_8_212_55_if_true:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_212_37_212_55_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 212 39 ]
+        %tmp.123 = lgetv %ly.2;
+        symbol [ ly %tmp.123 212 51 53 ];
+        lputv %tentative.7 %tmp.123;
+        symbol [ tentative %tentative.7 212 39 48 ];
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_212_37_212_55_stop:
+        goto @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_212_8_212_55_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_212_8_212_55_if_end:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 213 8 ]
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_213_8_213_55_if_stmt:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_213_12_213_31_begin:
+        %tmp.124 = lgetv %pp2.6;
+        symbol [ pp2 %tmp.124 213 12 15 ];
+        %tmp.125 = lgetv %pp0.4;
+        symbol [ pp0 %tmp.125 213 18 21 ];
+        %tmp.126 = gt %tmp.124 %tmp.125;
+        bf %tmp.126 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_213_8_213_55_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_213_25_213_31_true:
+        %tmp.127 = lgetv %pp2.6;
+        symbol [ pp2 %tmp.127 213 25 28 ];
+        %tmp.128 = lgetv %pp1.5;
+        symbol [ pp1 %tmp.128 213 31 34 ];
+        %tmp.129 = gt %tmp.127 %tmp.128;
+        push %tmp.129;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_213_25_213_31_end:
+        %tmp.130 = phi [%tmp.126 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_213_12_213_31_begin] [%tmp.129 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_213_25_213_31_true] [%tmp.130 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_213_25_213_31_end];
+        bf %tmp.130 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_213_8_213_55_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_213_8_213_55_if_true:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_213_37_213_55_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 213 39 ]
+        %tmp.131 = lgetv %lz.3;
+        symbol [ lz %tmp.131 213 51 53 ];
+        lputv %tentative.7 %tmp.131;
+        symbol [ tentative %tentative.7 213 39 48 ];
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_213_37_213_55_stop:
+        goto @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_213_8_213_55_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_213_8_213_55_if_end:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 217 8 ]
+        symbol [ CalibResult %tmp.135 217 19 30 ];
+        %tmp.135 = getv ? :CalibResult;
+        %tmp.136 = lgetv %tentative.7;
+        symbol [ tentative %tmp.136 217 31 40 ];
+        %tmp.137 = false;
+        %tmp.132 = newc %tmp.135 (%tmp.136, %tmp.137);
+        ret %tmp.132;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_192_96_218_4_stop:
+    }
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc"; @line = 220; @symbol_functiondef = [_lockAxis,220,21,30]; ]
+    private
+    function _lockAxis() as Void {
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_220_41_239_4_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 221 8 ]
+        [ "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_220_41_239_4_start" "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_220_41_239_4_stop" ]
+        %pp0.1 = local;
+        symbol [ pp0 %pp0.1 221 12 15 ];
+        symbol [ _axisMax %tmp.2 221 19 27 ];
+        %tmp.2 = getv ? :_axisMax;
+        %tmp.3 = 0;
+        %tmp.4 = agetv %tmp.2 %tmp.3;
+        %tmp.5 = as %tmp.4 Float;
+        symbol [ Float %tmp.5 221 34 39 ];
+        symbol [ _axisMin %tmp.7 221 44 52 ];
+        %tmp.7 = getv ? :_axisMin;
+        %tmp.8 = 0;
+        %tmp.9 = agetv %tmp.7 %tmp.8;
+        %tmp.10 = as %tmp.9 Float;
+        symbol [ Float %tmp.10 221 59 64 ];
+        %tmp.11 = sub %tmp.5 %tmp.10;
+        lputv %pp0.1 %tmp.11;
+        symbol [ pp0 %pp0.1 221 12 15 ];
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 222 8 ]
+        [ "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_220_41_239_4_start" "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_220_41_239_4_stop" ]
+        %pp1.2 = local;
+        symbol [ pp1 %pp1.2 222 12 15 ];
+        symbol [ _axisMax %tmp.13 222 19 27 ];
+        %tmp.13 = getv ? :_axisMax;
+        %tmp.14 = 1;
+        %tmp.15 = agetv %tmp.13 %tmp.14;
+        %tmp.16 = as %tmp.15 Float;
+        symbol [ Float %tmp.16 222 34 39 ];
+        symbol [ _axisMin %tmp.18 222 44 52 ];
+        %tmp.18 = getv ? :_axisMin;
+        %tmp.19 = 1;
+        %tmp.20 = agetv %tmp.18 %tmp.19;
+        %tmp.21 = as %tmp.20 Float;
+        symbol [ Float %tmp.21 222 59 64 ];
+        %tmp.22 = sub %tmp.16 %tmp.21;
+        lputv %pp1.2 %tmp.22;
+        symbol [ pp1 %pp1.2 222 12 15 ];
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 223 8 ]
+        [ "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_220_41_239_4_start" "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_220_41_239_4_stop" ]
+        %pp2.3 = local;
+        symbol [ pp2 %pp2.3 223 12 15 ];
+        symbol [ _axisMax %tmp.24 223 19 27 ];
+        %tmp.24 = getv ? :_axisMax;
+        %tmp.25 = 2;
+        %tmp.26 = agetv %tmp.24 %tmp.25;
+        %tmp.27 = as %tmp.26 Float;
+        symbol [ Float %tmp.27 223 34 39 ];
+        symbol [ _axisMin %tmp.29 223 44 52 ];
+        %tmp.29 = getv ? :_axisMin;
+        %tmp.30 = 2;
+        %tmp.31 = agetv %tmp.29 %tmp.30;
+        %tmp.32 = as %tmp.31 Float;
+        symbol [ Float %tmp.32 223 59 64 ];
+        %tmp.33 = sub %tmp.27 %tmp.32;
+        lputv %pp2.3 %tmp.33;
+        symbol [ pp2 %pp2.3 223 12 15 ];
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 225 8 ]
+        %tmp.34 = 0;
+        symbol [ forwardAxis ? 225 8 19 ];
+        putv self :forwardAxis %tmp.34;
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 226 8 ]
+        [ "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_220_41_239_4_start" "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_220_41_239_4_stop" ]
+        %bestPP.4 = local;
+        symbol [ bestPP %bestPP.4 226 12 18 ];
+        %tmp.35 = lgetv %pp0.1;
+        symbol [ pp0 %tmp.35 226 22 25 ];
+        lputv %bestPP.4 %tmp.35;
+        symbol [ bestPP %bestPP.4 226 12 18 ];
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 227 8 ]
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_227_8_227_59_if_stmt:
+        %tmp.36 = lgetv %pp1.2;
+        symbol [ pp1 %tmp.36 227 12 15 ];
+        %tmp.37 = lgetv %bestPP.4;
+        symbol [ bestPP %tmp.37 227 18 24 ];
+        %tmp.38 = gt %tmp.36 %tmp.37;
+        bf %tmp.38 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_227_8_227_59_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_227_8_227_59_if_true:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_227_26_227_59_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 227 28 ]
+        %tmp.39 = lgetv %pp1.2;
+        symbol [ pp1 %tmp.39 227 37 40 ];
+        lputv %bestPP.4 %tmp.39;
+        symbol [ bestPP %bestPP.4 227 28 34 ];
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 227 42 ]
+        %tmp.40 = 1;
+        symbol [ forwardAxis ? 227 42 53 ];
+        putv self :forwardAxis %tmp.40;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_227_26_227_59_stop:
+        goto @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_227_8_227_59_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_227_8_227_59_if_end:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 228 8 ]
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_228_8_228_59_if_stmt:
+        %tmp.41 = lgetv %pp2.3;
+        symbol [ pp2 %tmp.41 228 12 15 ];
+        %tmp.42 = lgetv %bestPP.4;
+        symbol [ bestPP %tmp.42 228 18 24 ];
+        %tmp.43 = gt %tmp.41 %tmp.42;
+        bf %tmp.43 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_228_8_228_59_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_228_8_228_59_if_true:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_228_26_228_59_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 228 28 ]
+        %tmp.44 = lgetv %pp2.3;
+        symbol [ pp2 %tmp.44 228 37 40 ];
+        lputv %bestPP.4 %tmp.44;
+        symbol [ bestPP %bestPP.4 228 28 34 ];
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 228 42 ]
+        %tmp.45 = 2;
+        symbol [ forwardAxis ? 228 42 53 ];
+        putv self :forwardAxis %tmp.45;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_228_26_228_59_stop:
+        goto @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_228_8_228_59_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_228_8_228_59_if_end:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 231 8 ]
+        [ "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_220_41_239_4_start" "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_220_41_239_4_stop" ]
+        %axMax.5 = local;
+        symbol [ axMax %axMax.5 231 12 17 ];
+        symbol [ _axisMax %tmp.47 231 20 28 ];
+        %tmp.47 = getv ? :_axisMax;
+        symbol [ forwardAxis %tmp.49 231 29 40 ];
+        %tmp.49 = getv ? :forwardAxis;
+        %tmp.50 = agetv %tmp.47 %tmp.49;
+        %tmp.51 = as %tmp.50 Float;
+        symbol [ Float %tmp.51 231 45 50 ];
+        lputv %axMax.5 %tmp.51;
+        symbol [ axMax %axMax.5 231 12 17 ];
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 232 8 ]
+        [ "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_220_41_239_4_start" "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_220_41_239_4_stop" ]
+        %axMin.6 = local;
+        symbol [ axMin %axMin.6 232 12 17 ];
+        symbol [ _axisMin %tmp.53 232 20 28 ];
+        %tmp.53 = getv ? :_axisMin;
+        symbol [ forwardAxis %tmp.55 232 29 40 ];
+        %tmp.55 = getv ? :forwardAxis;
+        %tmp.56 = agetv %tmp.53 %tmp.55;
+        %tmp.57 = as %tmp.56 Float;
+        symbol [ Float %tmp.57 232 45 50 ];
+        lputv %axMin.6 %tmp.57;
+        symbol [ axMin %axMin.6 232 12 17 ];
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 233 8 ]
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_233_22_233_50_begin:
+        %tmp.58 = lgetv %axMax.5;
+        symbol [ axMax %tmp.58 233 23 28 ];
+        %tmp.59 = lgetv %axMin.6;
+        symbol [ axMin %tmp.59 233 33 38 ];
+        %tmp.60 = sub 0 %tmp.59;
+        %tmp.61 = gte %tmp.58 %tmp.60;
+        bf %tmp.61 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_233_22_233_50_else_false;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_233_22_233_50_true:
+        %tmp.62 = 1.0f;
+        push %tmp.62;
+        goto @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_233_22_233_50_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_233_22_233_50_else_false:
+        %tmp.63 = -1.0f;
+        push %tmp.63;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_233_22_233_50_end:
+        %tmp.64 = phi [%tmp.61 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_233_22_233_50_begin] [%tmp.62 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_233_22_233_50_true] [%tmp.63 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_233_22_233_50_else_false] [%tmp.64 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_233_22_233_50_end];
+        symbol [ forwardSign ? 233 8 19 ];
+        putv self :forwardSign %tmp.64;
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 235 8 ]
+        symbol [ PHASE_LOCKED %tmp.66 235 16 28 ];
+        %tmp.66 = getv ? :PHASE_LOCKED;
+        symbol [ phase ? 235 8 13 ];
+        putv self :phase %tmp.66;
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 236 8 ]
+        %tmp.67 = 0;
+        symbol [ _knockCounter ? 236 8 21 ];
+        putv self :_knockCounter %tmp.67;
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 238 8 ]
+        symbol [ System %tmp.68 238 8 14 ];
+        %tmp.68 = getm $.Toybox.System;
+        symbol [ println %tmp.69 238 15 22 ];
+        %tmp.69 = getv function %tmp.68 :println;
+        %tmp.70 = "AxisCalibrator LOCKED → axis=";
+        symbol [ forwardAxis %tmp.72 238 57 68 ];
+        %tmp.72 = getv ? :forwardAxis;
+        %tmp.73 = add %tmp.70 %tmp.72;
+        %tmp.74 = " sign=";
+        %tmp.75 = add %tmp.73 %tmp.74;
+        symbol [ forwardSign %tmp.77 238 82 93 ];
+        %tmp.77 = getv ? :forwardSign;
+        %tmp.78 = add %tmp.75 %tmp.77;
+        invoke %tmp.68 %tmp.69(%tmp.78);
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_220_41_239_4_stop:
+    }
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc"; @line = 241; @symbol_functiondef = [_handleLockedPhase,241,21,39]; @symbol_param<0> = [ax,241,40,42]; @symbol_param<0>_type<0> = [Float,241,46,51]; @symbol_param<1> = [ay,241,53,55]; @symbol_param<1>_type<0> = [Float,241,59,64]; @symbol_param<2> = [az,241,66,68]; @symbol_param<2>_type<0> = [Float,241,72,77]; @symbol_return<0> = [CalibResult,241,82,93]; ]
+    private
+    function _handleLockedPhase(ax as Float, ay as Float, az as Float) as CalibResult {
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_241_94_267_4_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 243 8 ]
+        [ "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_241_94_267_4_start" "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_241_94_267_4_stop" ]
+        %lx.1 = local;
+        symbol [ lx %lx.1 243 12 14 ];
+        %tmp.1 = lgetv %ax;
+        symbol [ ax %tmp.1 243 17 19 ];
+        symbol [ _grav %tmp.3 243 23 28 ];
+        %tmp.3 = getv ? :_grav;
+        %tmp.4 = 0;
+        %tmp.5 = agetv %tmp.3 %tmp.4;
+        %tmp.6 = as %tmp.5 Float;
+        symbol [ Float %tmp.6 243 35 40 ];
+        %tmp.7 = sub %tmp.1 %tmp.6;
+        lputv %lx.1 %tmp.7;
+        symbol [ lx %lx.1 243 12 14 ];
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 244 8 ]
+        [ "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_241_94_267_4_start" "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_241_94_267_4_stop" ]
+        %ly.2 = local;
+        symbol [ ly %ly.2 244 12 14 ];
+        %tmp.8 = lgetv %ay;
+        symbol [ ay %tmp.8 244 17 19 ];
+        symbol [ _grav %tmp.10 244 23 28 ];
+        %tmp.10 = getv ? :_grav;
+        %tmp.11 = 1;
+        %tmp.12 = agetv %tmp.10 %tmp.11;
+        %tmp.13 = as %tmp.12 Float;
+        symbol [ Float %tmp.13 244 35 40 ];
+        %tmp.14 = sub %tmp.8 %tmp.13;
+        lputv %ly.2 %tmp.14;
+        symbol [ ly %ly.2 244 12 14 ];
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 245 8 ]
+        [ "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_241_94_267_4_start" "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_241_94_267_4_stop" ]
+        %lz.3 = local;
+        symbol [ lz %lz.3 245 12 14 ];
+        %tmp.15 = lgetv %az;
+        symbol [ az %tmp.15 245 17 19 ];
+        symbol [ _grav %tmp.17 245 23 28 ];
+        %tmp.17 = getv ? :_grav;
+        %tmp.18 = 2;
+        %tmp.19 = agetv %tmp.17 %tmp.18;
+        %tmp.20 = as %tmp.19 Float;
+        symbol [ Float %tmp.20 245 35 40 ];
+        %tmp.21 = sub %tmp.15 %tmp.20;
+        lputv %lz.3 %tmp.21;
+        symbol [ lz %lz.3 245 12 14 ];
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 248 8 ]
+        [ "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_241_94_267_4_start" "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_241_94_267_4_stop" ]
+        %forwardLinear.4 = local;
+        symbol [ forwardLinear %forwardLinear.4 248 12 25 ];
+        %tmp.22 = 0.0f;
+        lputv %forwardLinear.4 %tmp.22;
+        symbol [ forwardLinear %forwardLinear.4 248 12 25 ];
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 249 8 ]
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_249_8_251_71_if_stmt:
+        symbol [ forwardAxis %tmp.24 249 12 23 ];
+        %tmp.24 = getv ? :forwardAxis;
+        %tmp.25 = 0;
+        %tmp.26 = eq %tmp.24 %tmp.25;
+        bf %tmp.26 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_249_8_251_71_if_false;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_249_8_251_71_if_true:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_249_35_249_71_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 249 37 ]
+        symbol [ forwardSign %tmp.28 249 53 64 ];
+        %tmp.28 = getv ? :forwardSign;
+        %tmp.29 = lgetv %lx.1;
+        symbol [ lx %tmp.29 249 67 69 ];
+        %tmp.30 = mul %tmp.28 %tmp.29;
+        lputv %forwardLinear.4 %tmp.30;
+        symbol [ forwardLinear %forwardLinear.4 249 37 50 ];
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_249_35_249_71_stop:
+        goto @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_249_8_251_71_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_249_8_251_71_if_false:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 250 13 ]
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_250_13_251_71_if_stmt:
+        symbol [ forwardAxis %tmp.32 250 17 28 ];
+        %tmp.32 = getv ? :forwardAxis;
+        %tmp.33 = 1;
+        %tmp.34 = eq %tmp.32 %tmp.33;
+        bf %tmp.34 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_250_13_251_71_if_else_false;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_250_13_251_71_if_true:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_250_35_250_71_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 250 37 ]
+        symbol [ forwardSign %tmp.36 250 53 64 ];
+        %tmp.36 = getv ? :forwardSign;
+        %tmp.37 = lgetv %ly.2;
+        symbol [ ly %tmp.37 250 67 69 ];
+        %tmp.38 = mul %tmp.36 %tmp.37;
+        lputv %forwardLinear.4 %tmp.38;
+        symbol [ forwardLinear %forwardLinear.4 250 37 50 ];
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_250_35_250_71_stop:
+        goto @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_250_13_251_71_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_250_13_251_71_if_else_false:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_251_35_251_71_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 251 37 ]
+        symbol [ forwardSign %tmp.40 251 53 64 ];
+        %tmp.40 = getv ? :forwardSign;
+        %tmp.41 = lgetv %lz.3;
+        symbol [ lz %tmp.41 251 67 69 ];
+        %tmp.42 = mul %tmp.40 %tmp.41;
+        lputv %forwardLinear.4 %tmp.42;
+        symbol [ forwardLinear %forwardLinear.4 251 37 50 ];
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_251_35_251_71_stop:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_250_13_251_71_if_end:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_249_8_251_71_if_end:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 256 8 ]
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_256_8_261_8_if_stmt:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_256_12_256_68_begin:
+        %tmp.43 = lgetv %forwardLinear.4;
+        symbol [ forwardLinear %tmp.43 256 12 25 ];
+        symbol [ QUIET_THRESHOLD_MS2 %tmp.45 256 28 47 ];
+        %tmp.45 = getv ? :QUIET_THRESHOLD_MS2;
+        %tmp.46 = lt %tmp.43 %tmp.45;
+        bf %tmp.46 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_256_8_261_8_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_256_51_256_68_true:
+        %tmp.47 = lgetv %forwardLinear.4;
+        symbol [ forwardLinear %tmp.47 256 51 64 ];
+        symbol [ QUIET_THRESHOLD_MS2 %tmp.49 256 68 87 ];
+        %tmp.49 = getv ? :QUIET_THRESHOLD_MS2;
+        %tmp.50 = sub 0 %tmp.49;
+        %tmp.51 = gt %tmp.47 %tmp.50;
+        push %tmp.51;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_256_51_256_68_end:
+        %tmp.52 = phi [%tmp.46 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_256_12_256_68_begin] [%tmp.51 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_256_51_256_68_true] [%tmp.52 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_256_51_256_68_end];
+        bf %tmp.52 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_256_8_261_8_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_256_8_261_8_if_true:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_256_89_261_8_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 257 12 ]
+        [ "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_256_89_261_8_start" "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_256_89_261_8_stop" ]
+        %beta.5 = local;
+        symbol [ beta %beta.5 257 16 20 ];
+        %tmp.53 = 1.0f;
+        symbol [ GRAVITY_ADAPT_ALPHA %tmp.55 257 30 49 ];
+        %tmp.55 = getv ? :GRAVITY_ADAPT_ALPHA;
+        %tmp.56 = sub %tmp.53 %tmp.55;
+        lputv %beta.5 %tmp.56;
+        symbol [ beta %beta.5 257 16 20 ];
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 258 12 ]
+        symbol [ _grav %tmp.57 258 12 17 ];
+        %tmp.57 = getv self :_grav;
+        %tmp.58 = lgetv %beta.5;
+        symbol [ beta %tmp.58 258 23 27 ];
+        symbol [ _grav %tmp.60 258 31 36 ];
+        %tmp.60 = getv ? :_grav;
+        %tmp.61 = 0;
+        %tmp.62 = agetv %tmp.60 %tmp.61;
+        %tmp.63 = as %tmp.62 Float;
+        symbol [ Float %tmp.63 258 43 48 ];
+        %tmp.64 = mul %tmp.58 %tmp.63;
+        symbol [ GRAVITY_ADAPT_ALPHA %tmp.66 258 52 71 ];
+        %tmp.66 = getv ? :GRAVITY_ADAPT_ALPHA;
+        %tmp.67 = lgetv %ax;
+        symbol [ ax %tmp.67 258 74 76 ];
+        %tmp.68 = mul %tmp.66 %tmp.67;
+        %tmp.69 = add %tmp.64 %tmp.68;
+        %tmp.70 = 0;
+        aputv %tmp.57 %tmp.70 %tmp.69;
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 259 12 ]
+        symbol [ _grav %tmp.71 259 12 17 ];
+        %tmp.71 = getv self :_grav;
+        %tmp.72 = lgetv %beta.5;
+        symbol [ beta %tmp.72 259 23 27 ];
+        symbol [ _grav %tmp.74 259 31 36 ];
+        %tmp.74 = getv ? :_grav;
+        %tmp.75 = 1;
+        %tmp.76 = agetv %tmp.74 %tmp.75;
+        %tmp.77 = as %tmp.76 Float;
+        symbol [ Float %tmp.77 259 43 48 ];
+        %tmp.78 = mul %tmp.72 %tmp.77;
+        symbol [ GRAVITY_ADAPT_ALPHA %tmp.80 259 52 71 ];
+        %tmp.80 = getv ? :GRAVITY_ADAPT_ALPHA;
+        %tmp.81 = lgetv %ay;
+        symbol [ ay %tmp.81 259 74 76 ];
+        %tmp.82 = mul %tmp.80 %tmp.81;
+        %tmp.83 = add %tmp.78 %tmp.82;
+        %tmp.84 = 1;
+        aputv %tmp.71 %tmp.84 %tmp.83;
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 260 12 ]
+        symbol [ _grav %tmp.85 260 12 17 ];
+        %tmp.85 = getv self :_grav;
+        %tmp.86 = lgetv %beta.5;
+        symbol [ beta %tmp.86 260 23 27 ];
+        symbol [ _grav %tmp.88 260 31 36 ];
+        %tmp.88 = getv ? :_grav;
+        %tmp.89 = 2;
+        %tmp.90 = agetv %tmp.88 %tmp.89;
+        %tmp.91 = as %tmp.90 Float;
+        symbol [ Float %tmp.91 260 43 48 ];
+        %tmp.92 = mul %tmp.86 %tmp.91;
+        symbol [ GRAVITY_ADAPT_ALPHA %tmp.94 260 52 71 ];
+        %tmp.94 = getv ? :GRAVITY_ADAPT_ALPHA;
+        %tmp.95 = lgetv %az;
+        symbol [ az %tmp.95 260 74 76 ];
+        %tmp.96 = mul %tmp.94 %tmp.95;
+        %tmp.97 = add %tmp.92 %tmp.96;
+        %tmp.98 = 2;
+        aputv %tmp.85 %tmp.98 %tmp.97;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_256_89_261_8_stop:
+        goto @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_256_8_261_8_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_256_8_261_8_if_end:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 264 8 ]
+        %tmp.99 = self;
+        symbol [ _detectKnock %tmp.100 264 8 20 ];
+        %tmp.100 = getv function %tmp.99 :_detectKnock;
+        %tmp.101 = lgetv %lx.1;
+        symbol [ lx %tmp.101 264 21 23 ];
+        %tmp.102 = lgetv %ly.2;
+        symbol [ ly %tmp.102 264 25 27 ];
+        %tmp.103 = lgetv %lz.3;
+        symbol [ lz %tmp.103 264 29 31 ];
+        invoke %tmp.99 %tmp.100(%tmp.101, %tmp.102, %tmp.103);
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 266 8 ]
+        symbol [ CalibResult %tmp.107 266 19 30 ];
+        %tmp.107 = getv ? :CalibResult;
+        %tmp.108 = lgetv %forwardLinear.4;
+        symbol [ forwardLinear %tmp.108 266 31 44 ];
+        %tmp.109 = true;
+        %tmp.104 = newc %tmp.107 (%tmp.108, %tmp.109);
+        ret %tmp.104;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_241_94_267_4_stop:
+    }
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc"; @line = 269; @symbol_functiondef = [_detectKnock,269,21,33]; @symbol_param<0> = [lx,269,34,36]; @symbol_param<0>_type<0> = [Float,269,40,45]; @symbol_param<1> = [ly,269,47,49]; @symbol_param<1>_type<0> = [Float,269,53,58]; @symbol_param<2> = [lz,269,60,62]; @symbol_param<2>_type<0> = [Float,269,66,71]; ]
+    private
+    function _detectKnock(lx as Float, ly as Float, lz as Float) as Void {
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_269_81_290_4_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 271 8 ]
+        [ "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_269_81_290_4_start" "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_269_81_290_4_stop" ]
+        %lat1.1 = local;
+        symbol [ lat1 %lat1.1 271 12 16 ];
+        %tmp.1 = 0.0f;
+        lputv %lat1.1 %tmp.1;
+        symbol [ lat1 %lat1.1 271 12 16 ];
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 272 8 ]
+        [ "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_269_81_290_4_start" "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_269_81_290_4_stop" ]
+        %lat2.2 = local;
+        symbol [ lat2 %lat2.2 272 12 16 ];
+        %tmp.2 = 0.0f;
+        lputv %lat2.2 %tmp.2;
+        symbol [ lat2 %lat2.2 272 12 16 ];
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 274 8 ]
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_274_8_276_59_if_stmt:
+        symbol [ forwardAxis %tmp.4 274 12 23 ];
+        %tmp.4 = getv ? :forwardAxis;
+        %tmp.5 = 0;
+        %tmp.6 = eq %tmp.4 %tmp.5;
+        bf %tmp.6 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_274_8_276_59_if_false;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_274_8_276_59_if_true:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_274_35_274_59_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 274 37 ]
+        %tmp.7 = lgetv %ly;
+        symbol [ ly %tmp.7 274 44 46 ];
+        lputv %lat1.1 %tmp.7;
+        symbol [ lat1 %lat1.1 274 37 41 ];
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 274 48 ]
+        %tmp.8 = lgetv %lz;
+        symbol [ lz %tmp.8 274 55 57 ];
+        lputv %lat2.2 %tmp.8;
+        symbol [ lat2 %lat2.2 274 48 52 ];
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_274_35_274_59_stop:
+        goto @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_274_8_276_59_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_274_8_276_59_if_false:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 275 13 ]
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_275_13_276_59_if_stmt:
+        symbol [ forwardAxis %tmp.10 275 17 28 ];
+        %tmp.10 = getv ? :forwardAxis;
+        %tmp.11 = 1;
+        %tmp.12 = eq %tmp.10 %tmp.11;
+        bf %tmp.12 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_275_13_276_59_if_else_false;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_275_13_276_59_if_true:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_275_35_275_59_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 275 37 ]
+        %tmp.13 = lgetv %lx;
+        symbol [ lx %tmp.13 275 44 46 ];
+        lputv %lat1.1 %tmp.13;
+        symbol [ lat1 %lat1.1 275 37 41 ];
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 275 48 ]
+        %tmp.14 = lgetv %lz;
+        symbol [ lz %tmp.14 275 55 57 ];
+        lputv %lat2.2 %tmp.14;
+        symbol [ lat2 %lat2.2 275 48 52 ];
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_275_35_275_59_stop:
+        goto @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_275_13_276_59_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_275_13_276_59_if_else_false:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_276_35_276_59_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 276 37 ]
+        %tmp.15 = lgetv %lx;
+        symbol [ lx %tmp.15 276 44 46 ];
+        lputv %lat1.1 %tmp.15;
+        symbol [ lat1 %lat1.1 276 37 41 ];
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 276 48 ]
+        %tmp.16 = lgetv %ly;
+        symbol [ ly %tmp.16 276 55 57 ];
+        lputv %lat2.2 %tmp.16;
+        symbol [ lat2 %lat2.2 276 48 52 ];
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_276_35_276_59_stop:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_275_13_276_59_if_end:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_274_8_276_59_if_end:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 278 8 ]
+        [ "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_269_81_290_4_start" "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_269_81_290_4_stop" ]
+        %lateralEnergy.3 = local;
+        symbol [ lateralEnergy %lateralEnergy.3 278 12 25 ];
+        symbol [ Math %tmp.18 278 28 32 ];
+        %tmp.18 = getv ? :Math;
+        symbol [ sqrt %tmp.19 278 33 37 ];
+        %tmp.19 = getv function %tmp.18 :sqrt;
+        %tmp.20 = lgetv %lat1.1;
+        symbol [ lat1 %tmp.20 278 38 42 ];
+        %tmp.21 = lgetv %lat1.1;
+        symbol [ lat1 %tmp.21 278 45 49 ];
+        %tmp.22 = mul %tmp.20 %tmp.21;
+        %tmp.23 = lgetv %lat2.2;
+        symbol [ lat2 %tmp.23 278 52 56 ];
+        %tmp.24 = lgetv %lat2.2;
+        symbol [ lat2 %tmp.24 278 59 63 ];
+        %tmp.25 = mul %tmp.23 %tmp.24;
+        %tmp.26 = add %tmp.22 %tmp.25;
+        %tmp.27 = invoke %tmp.18 %tmp.19(%tmp.26);
+        symbol [ toFloat %tmp.28 278 65 72 ];
+        %tmp.28 = getv function %tmp.27 :toFloat;
+        %tmp.29 = invoke %tmp.27 %tmp.28();
+        lputv %lateralEnergy.3 %tmp.29;
+        symbol [ lateralEnergy %lateralEnergy.3 278 12 25 ];
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 280 8 ]
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_280_8_284_8_if_stmt:
+        %tmp.30 = lgetv %lateralEnergy.3;
+        symbol [ lateralEnergy %tmp.30 280 12 25 ];
+        symbol [ KNOCK_THRESHOLD_MS2 %tmp.32 280 28 47 ];
+        %tmp.32 = getv ? :KNOCK_THRESHOLD_MS2;
+        %tmp.33 = gt %tmp.30 %tmp.32;
+        bf %tmp.33 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_280_8_284_8_if_else_false;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_280_8_284_8_if_true:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_280_49_282_8_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 281 12 ]
+        symbol [ _knockCounter %tmp.36 281 12 25 ];
+        %tmp.36 = getv ? :_knockCounter;
+        %tmp.37 = add %tmp.36 1;
+        symbol [ _knockCounter ? 281 12 25 ];
+        putv self :_knockCounter dup %tmp.37;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_280_49_282_8_stop:
+        goto @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_280_8_284_8_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_280_8_284_8_if_else_false:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_282_15_284_8_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 283 12 ]
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_283_12_283_54_if_stmt:
+        symbol [ _knockCounter %tmp.39 283 16 29 ];
+        %tmp.39 = getv ? :_knockCounter;
+        %tmp.40 = 0;
+        %tmp.41 = gt %tmp.39 %tmp.40;
+        bf %tmp.41 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_283_12_283_54_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_283_12_283_54_if_true:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_283_35_283_54_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 283 37 ]
+        symbol [ _knockCounter %tmp.44 283 37 50 ];
+        %tmp.44 = getv ? :_knockCounter;
+        %tmp.45 = sub %tmp.44 1;
+        symbol [ _knockCounter ? 283 37 50 ];
+        putv self :_knockCounter dup %tmp.45;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_283_35_283_54_stop:
+        goto @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_283_12_283_54_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_283_12_283_54_if_end:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_282_15_284_8_stop:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_280_8_284_8_if_end:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 286 8 ]
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_286_8_289_8_if_stmt:
+        symbol [ _knockCounter %tmp.47 286 12 25 ];
+        %tmp.47 = getv ? :_knockCounter;
+        symbol [ KNOCK_CONFIRM_SAMPLES %tmp.49 286 29 50 ];
+        %tmp.49 = getv ? :KNOCK_CONFIRM_SAMPLES;
+        %tmp.50 = gte %tmp.47 %tmp.49;
+        bf %tmp.50 @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_286_8_289_8_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_286_8_289_8_if_true:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_286_52_289_8_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 287 12 ]
+        symbol [ System %tmp.51 287 12 18 ];
+        %tmp.51 = getm $.Toybox.System;
+        symbol [ println %tmp.52 287 19 26 ];
+        %tmp.52 = getv function %tmp.51 :println;
+        %tmp.53 = "AxisCalibrator: knock detected, recalibrating...";
+        invoke %tmp.51 %tmp.52(%tmp.53);
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 288 12 ]
+        %tmp.54 = self;
+        symbol [ triggerRecalibration %tmp.55 288 12 32 ];
+        %tmp.55 = getv function %tmp.54 :triggerRecalibration;
+        invoke %tmp.54 %tmp.55();
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_286_52_289_8_stop:
+        goto @_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_286_8_289_8_if_end;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_286_8_289_8_if_end:
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_269_81_290_4_stop:
+    }
+}
+[ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc"; @line = 297; @symbol_classdef = [CalibResult,297,6,17]; ]
+class CalibResult {
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc"; @line = 297; ]
+    <init> {
+    }
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc"; @line = 297; ]
+    static
+    <init> {
+    }
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc"; @line = 298; @position = 8; @symbol_vardef = [linearForwardMs2,298,8,24]; @symbol_type<0> = [Float,298,28,33]; ]
+    var linearForwardMs2 as Float;
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc"; @line = 299; @position = 8; @symbol_vardef = [isReady,299,8,15]; @symbol_type<0> = [Boolean,299,28,35]; ]
+    var isReady as Boolean;
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc"; @line = 301; @symbol_functiondef = [initialize,301,13,23]; @symbol_param<0> = [val,301,24,27]; @symbol_param<0>_type<0> = [Float,301,31,36]; @symbol_param<1> = [ready,301,38,43]; @symbol_param<1>_type<0> = [Boolean,301,47,54]; ]
+    function initialize(val as Float, ready as Boolean) as Void {
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_301_56_304_4_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 302 8 ]
+        %tmp.1 = lgetv %val;
+        symbol [ val %tmp.1 302 27 30 ];
+        symbol [ linearForwardMs2 ? 302 8 24 ];
+        putv self :linearForwardMs2 %tmp.1;
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc" 303 8 ]
+        %tmp.2 = lgetv %ready;
+        symbol [ ready %tmp.2 303 27 32 ];
+        symbol [ isReady ? 303 8 15 ];
+        putv self :isReady %tmp.2;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_source_AxisCalibrator_mc_301_56_304_4_stop:
+    }
+}
+[ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/source/AxisCalibrator.mc"; @line = 28; ]
+<init> {
+}

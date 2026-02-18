@@ -1,0 +1,272 @@
+[ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/bin/gen/006-B3225-00/source/Rez.mcgen"; @line = 1; @symbol_importdef<0> = [Toybox,1,7,13]; @symbol_importdef<1> = [Lang,1,14,18]; ]
+import Toybox.Lang;
+[ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/bin/gen/006-B3225-00/source/Rez.mcgen"; @line = 2; @symbol_usingdef<0> = [Toybox,2,6,12]; @symbol_usingdef<1> = [WatchUi,2,13,20]; ]
+using Toybox.WatchUi;
+[ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/bin/gen/006-B3225-00/source/Rez.mcgen"; @line = 3; @symbol_usingdef<0> = [Toybox,3,6,12]; @symbol_usingdef<1> = [WatchUi,3,13,20]; @symbol_usingAlias = [Ui,3,24,26]; ]
+using Toybox.WatchUi as :Ui;
+[ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/bin/gen/006-B3225-00/source/Rez.mcgen"; @line = 4; @symbol_usingdef<0> = [Toybox,4,6,12]; @symbol_usingdef<1> = [Graphics,4,13,21]; ]
+using Toybox.Graphics;
+[ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/bin/gen/006-B3225-00/source/Rez.mcgen"; @line = 5; @symbol_usingdef<0> = [Toybox,5,6,12]; @symbol_usingdef<1> = [Graphics,5,13,21]; @symbol_usingAlias = [Gfx,5,25,28]; ]
+using Toybox.Graphics as :Gfx;
+[ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/bin/gen/006-B3225-00/source/Rez.mcgen"; @line = 7; @symbol_moduledef = [Rez,7,7,10]; ]
+module Rez {
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/bin/gen/006-B3225-00/source/Rez.mcgen"; @line = 7; ]
+    <init> {
+    }
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/bin/gen/006-B3225-00/source/Rez.mcgen"; @line = 8; @symbol_moduledef = [Drawables,8,11,20]; ]
+    module Drawables {
+        [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/bin/gen/006-B3225-00/source/Rez.mcgen"; @line = 8; ]
+        <init> {
+        }
+        [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/bin/gen/006-B3225-00/source/Rez.mcgen"; @line = 9; @position = 27; initialized = true; @symbol_vardef = [id_monkey,9,27,36]; @symbol_type<0> = [ResourceId,9,40,50]; ]
+        var id_monkey as ResourceId;
+        [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/bin/gen/006-B3225-00/source/Rez.mcgen"; @line = 10; @position = 27; initialized = true; @symbol_vardef = [LauncherIcon,10,27,39]; @symbol_type<0> = [ResourceId,10,43,53]; ]
+        var LauncherIcon as ResourceId;
+    }
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/bin/gen/006-B3225-00/source/Rez.mcgen"; @line = 13; @symbol_moduledef = [Layouts,13,11,18]; ]
+    module Layouts {
+        [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/bin/gen/006-B3225-00/source/Rez.mcgen"; @line = 13; ]
+        <init> {
+        }
+        [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/bin/gen/006-B3225-00/source/Rez.mcgen"; @line = 14; @symbol_functiondef = [MainLayout,14,17,27]; @symbol_param<0> = [dc,14,28,30]; @symbol_param<0>_type<0> = [Graphics,14,34,42]; @symbol_param<0>_type<1> = [Dc,14,43,45]; @symbol_return<0> = [Array,14,50,55]; @symbol_return<1> = [WatchUi,14,56,63]; @symbol_return<2> = [Drawable,14,64,72]; ]
+        function MainLayout(dc as Graphics.Dc) as Array<WatchUi.Drawable> {
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_bin_gen_006_B3225_00_source_Rez_mcgen_14_74_23_8_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/bin/gen/006-B3225-00/source/Rez.mcgen" 15 12 ]
+            [ "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_bin_gen_006_B3225_00_source_Rez_mcgen_14_74_23_8_start" "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_bin_gen_006_B3225_00_source_Rez_mcgen_14_74_23_8_stop" ]
+            %rez_cmp_local_var_dc_getWidth.1 = local;
+            symbol [ rez_cmp_local_var_dc_getWidth %rez_cmp_local_var_dc_getWidth.1 15 16 45 ];
+            %tmp.1 = lgetv %dc;
+            symbol [ dc %tmp.1 15 48 50 ];
+            symbol [ getWidth %tmp.2 15 51 59 ];
+            %tmp.2 = getv function %tmp.1 :getWidth;
+            %tmp.3 = invoke %tmp.1 %tmp.2();
+            lputv %rez_cmp_local_var_dc_getWidth.1 %tmp.3;
+            symbol [ rez_cmp_local_var_dc_getWidth %rez_cmp_local_var_dc_getWidth.1 15 16 45 ];
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/bin/gen/006-B3225-00/source/Rez.mcgen" 17 12 ]
+            [ "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_bin_gen_006_B3225_00_source_Rez_mcgen_14_74_23_8_start" "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_bin_gen_006_B3225_00_source_Rez_mcgen_14_74_23_8_stop" ]
+            %rez_cmp_local_text_1193959466.2 = local;
+            symbol [ rez_cmp_local_text_1193959466 %rez_cmp_local_text_1193959466.2 17 16 45 ];
+            symbol [ WatchUi %tmp.6 17 52 59 ];
+            %tmp.6 = getm $.Toybox.WatchUi;
+            symbol [ Text %tmp.7 17 60 64 ];
+            %tmp.7 = getv function ? %tmp.6 :Text;
+            %tmp.8 = newd 6;
+            %tmp.10 = const :color;
+            symbol [ color %tmp.10 17 67 72 const ];
+            symbol [ Graphics %tmp.11 17 74 82 ];
+            %tmp.11 = getm $.Toybox.Graphics;
+            symbol [ COLOR_WHITE %tmp.12 17 83 94 ];
+            %tmp.12 = getv %tmp.11 :COLOR_WHITE;
+            %tmp.13 = dup %tmp.8;
+            %tmp.14 = aputv %tmp.13 %tmp.10 %tmp.12;
+            %tmp.16 = const :locX;
+            symbol [ locX %tmp.16 17 97 101 const ];
+            %tmp.17 = lgetv %rez_cmp_local_var_dc_getWidth.1;
+            symbol [ rez_cmp_local_var_dc_getWidth %tmp.17 17 104 133 ];
+            %tmp.18 = 0.5;
+            %tmp.19 = mul %tmp.17 %tmp.18;
+            %tmp.20 = dup %tmp.14;
+            %tmp.21 = aputv %tmp.20 %tmp.16 %tmp.19;
+            %tmp.23 = const :locY;
+            symbol [ locY %tmp.23 17 143 147 const ];
+            %tmp.24 = 5;
+            %tmp.25 = dup %tmp.21;
+            %tmp.26 = aputv %tmp.25 %tmp.23 %tmp.24;
+            %tmp.28 = const :text;
+            symbol [ text %tmp.28 17 153 157 const ];
+            symbol [ $ %tmp.29 17 159 160 ];
+            %tmp.29 = getm $;
+            symbol [ Rez %tmp.30 17 161 164 ];
+            %tmp.30 = getv %tmp.29 :Rez;
+            symbol [ Strings %tmp.31 17 165 172 ];
+            %tmp.31 = getv %tmp.30 :Strings;
+            symbol [ prompt %tmp.32 17 173 179 ];
+            %tmp.32 = getv %tmp.31 :prompt;
+            %tmp.33 = dup %tmp.26;
+            %tmp.34 = aputv %tmp.33 %tmp.28 %tmp.32;
+            %tmp.36 = const :justification;
+            symbol [ justification %tmp.36 17 182 195 const ];
+            symbol [ Graphics %tmp.37 17 197 205 ];
+            %tmp.37 = getm $.Toybox.Graphics;
+            symbol [ TEXT_JUSTIFY_CENTER %tmp.38 17 206 225 ];
+            %tmp.38 = getv %tmp.37 :TEXT_JUSTIFY_CENTER;
+            %tmp.39 = dup %tmp.34;
+            %tmp.40 = aputv %tmp.39 %tmp.36 %tmp.38;
+            %tmp.42 = const :font;
+            symbol [ font %tmp.42 17 228 232 const ];
+            symbol [ Graphics %tmp.43 17 234 242 ];
+            %tmp.43 = getm $.Toybox.Graphics;
+            symbol [ FONT_MEDIUM %tmp.44 17 243 254 ];
+            %tmp.44 = getv %tmp.43 :FONT_MEDIUM;
+            %tmp.45 = dup %tmp.40;
+            %tmp.46 = aputv %tmp.45 %tmp.42 %tmp.44;
+            %tmp.4 = newc %tmp.7 (%tmp.46);
+            lputv %rez_cmp_local_text_1193959466.2 %tmp.4;
+            symbol [ rez_cmp_local_text_1193959466 %rez_cmp_local_text_1193959466.2 17 16 45 ];
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/bin/gen/006-B3225-00/source/Rez.mcgen" 19 12 ]
+            [ "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_bin_gen_006_B3225_00_source_Rez_mcgen_14_74_23_8_start" "_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_bin_gen_006_B3225_00_source_Rez_mcgen_14_74_23_8_stop" ]
+            %rez_cmp_local_bitmap_id_monkey.3 = local;
+            symbol [ rez_cmp_local_bitmap_id_monkey %rez_cmp_local_bitmap_id_monkey.3 19 16 46 ];
+            symbol [ WatchUi %tmp.49 19 53 60 ];
+            %tmp.49 = getm $.Toybox.WatchUi;
+            symbol [ Bitmap %tmp.50 19 61 67 ];
+            %tmp.50 = getv function ? %tmp.49 :Bitmap;
+            %tmp.51 = newd 4;
+            %tmp.53 = const :identifier;
+            symbol [ identifier %tmp.53 19 70 80 const ];
+            %tmp.54 = "id_monkey";
+            %tmp.55 = dup %tmp.51;
+            %tmp.56 = aputv %tmp.55 %tmp.53 %tmp.54;
+            %tmp.58 = const :rezId;
+            symbol [ rezId %tmp.58 19 96 101 const ];
+            symbol [ $ %tmp.59 19 103 104 ];
+            %tmp.59 = getm $;
+            symbol [ Rez %tmp.60 19 105 108 ];
+            %tmp.60 = getv %tmp.59 :Rez;
+            symbol [ Drawables %tmp.61 19 109 118 ];
+            %tmp.61 = getv %tmp.60 :Drawables;
+            symbol [ id_monkey %tmp.62 19 119 128 ];
+            %tmp.62 = getv %tmp.61 :id_monkey;
+            %tmp.63 = dup %tmp.56;
+            %tmp.64 = aputv %tmp.63 %tmp.58 %tmp.62;
+            %tmp.66 = const :locX;
+            symbol [ locX %tmp.66 19 131 135 const ];
+            symbol [ WatchUi %tmp.67 19 137 144 ];
+            %tmp.67 = getm $.Toybox.WatchUi;
+            symbol [ LAYOUT_HALIGN_CENTER %tmp.68 19 145 165 ];
+            %tmp.68 = getv %tmp.67 :LAYOUT_HALIGN_CENTER;
+            %tmp.69 = dup %tmp.64;
+            %tmp.70 = aputv %tmp.69 %tmp.66 %tmp.68;
+            %tmp.72 = const :locY;
+            symbol [ locY %tmp.72 19 168 172 const ];
+            %tmp.73 = 30;
+            %tmp.74 = dup %tmp.70;
+            %tmp.75 = aputv %tmp.74 %tmp.72 %tmp.73;
+            %tmp.47 = newc %tmp.50 (%tmp.75);
+            lputv %rez_cmp_local_bitmap_id_monkey.3 %tmp.47;
+            symbol [ rez_cmp_local_bitmap_id_monkey %rez_cmp_local_bitmap_id_monkey.3 19 16 46 ];
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/bin/gen/006-B3225-00/source/Rez.mcgen" 20 12 ]
+            %tmp.76 = lgetv %rez_cmp_local_bitmap_id_monkey.3;
+            symbol [ rez_cmp_local_bitmap_id_monkey %tmp.76 20 12 42 ];
+            symbol [ setLocation %tmp.77 20 43 54 ];
+            %tmp.77 = getv function %tmp.76 :setLocation;
+            %tmp.78 = lgetv %rez_cmp_local_var_dc_getWidth.1;
+            symbol [ rez_cmp_local_var_dc_getWidth %tmp.78 20 57 86 ];
+            %tmp.79 = lgetv %rez_cmp_local_bitmap_id_monkey.3;
+            symbol [ rez_cmp_local_bitmap_id_monkey %tmp.79 20 89 119 ];
+            symbol [ width %tmp.80 20 120 125 ];
+            %tmp.80 = getv %tmp.79 :width;
+            %tmp.81 = sub %tmp.78 %tmp.80;
+            %tmp.82 = 0.5;
+            %tmp.83 = mul %tmp.81 %tmp.82;
+            %tmp.84 = lgetv %rez_cmp_local_bitmap_id_monkey.3;
+            symbol [ rez_cmp_local_bitmap_id_monkey %tmp.84 20 135 165 ];
+            symbol [ locY %tmp.85 20 166 170 ];
+            %tmp.85 = getv %tmp.84 :locY;
+            invoke %tmp.76 %tmp.77(%tmp.83, %tmp.85);
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/bin/gen/006-B3225-00/source/Rez.mcgen" 22 12 ]
+            %tmp.86 = newa 2 Array<WatchUi.Drawable>;
+            symbol [ Array %tmp.86 22 86 91 ];
+            symbol [ WatchUi %tmp.86 22 92 99 ];
+            symbol [ Drawable %tmp.86 22 100 108 ];
+            %tmp.87 = lgetv %rez_cmp_local_text_1193959466.2;
+            symbol [ rez_cmp_local_text_1193959466 %tmp.87 22 20 49 ];
+            %tmp.88 = dup %tmp.86;
+            %tmp.89 = aputv %tmp.88 0 %tmp.87;
+            %tmp.90 = lgetv %rez_cmp_local_bitmap_id_monkey.3;
+            symbol [ rez_cmp_local_bitmap_id_monkey %tmp.90 22 51 81 ];
+            %tmp.91 = dup %tmp.89;
+            %tmp.92 = aputv %tmp.91 1 %tmp.90;
+            ret %tmp.92;
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_bin_gen_006_B3225_00_source_Rez_mcgen_14_74_23_8_stop:
+        }
+    }
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/bin/gen/006-B3225-00/source/Rez.mcgen"; @line = 26; @symbol_moduledef = [Menus,26,11,16]; ]
+    module Menus {
+        [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/bin/gen/006-B3225-00/source/Rez.mcgen"; @line = 26; ]
+        <init> {
+        }
+        [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/bin/gen/006-B3225-00/source/Rez.mcgen"; @line = 27; @symbol_classdef = [MainMenu,27,14,22]; @symbol_extends<0> = [WatchUi,27,31,38]; @symbol_extends<1> = [Menu,27,39,43]; ]
+        class MainMenu extends WatchUi.Menu {
+            [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/bin/gen/006-B3225-00/source/Rez.mcgen"; @line = 27; ]
+            <init> {
+            }
+            [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/bin/gen/006-B3225-00/source/Rez.mcgen"; @line = 27; ]
+            static
+            <init> {
+            }
+            [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/bin/gen/006-B3225-00/source/Rez.mcgen"; @line = 28; @symbol_functiondef = [initialize,28,21,31]; ]
+            function initialize() as Void {
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_bin_gen_006_B3225_00_source_Rez_mcgen_28_34_32_12_start:
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/bin/gen/006-B3225-00/source/Rez.mcgen" 29 16 ]
+                symbol [ Menu %tmp.2 29 16 20 ];
+                %tmp.2 = getv ? :Menu;
+                symbol [ initialize %tmp.3 29 21 31 ];
+                %tmp.3 = getv function %tmp.2 :initialize;
+                invoke %tmp.2 %tmp.3();
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/bin/gen/006-B3225-00/source/Rez.mcgen" 30 16 ]
+                %tmp.4 = self;
+                symbol [ addItem %tmp.5 30 16 23 ];
+                %tmp.5 = getv function %tmp.4 :addItem;
+                symbol [ WatchUi %tmp.6 30 25 32 ];
+                %tmp.6 = getm $.Toybox.WatchUi;
+                symbol [ loadResource %tmp.7 30 33 45 ];
+                %tmp.7 = getv function %tmp.6 :loadResource;
+                symbol [ $ %tmp.8 30 46 47 ];
+                %tmp.8 = getm $;
+                symbol [ Rez %tmp.9 30 48 51 ];
+                %tmp.9 = getv %tmp.8 :Rez;
+                symbol [ Strings %tmp.10 30 52 59 ];
+                %tmp.10 = getv %tmp.9 :Strings;
+                symbol [ menu_label_1 %tmp.11 30 60 72 ];
+                %tmp.11 = getv %tmp.10 :menu_label_1;
+                %tmp.12 = invoke %tmp.6 %tmp.7(%tmp.11);
+                %tmp.13 = as %tmp.12 String;
+                symbol [ String %tmp.13 30 77 83 ];
+                %tmp.15 = const :item_1;
+                symbol [ item_1 %tmp.15 30 87 93 const ];
+                invoke %tmp.4 %tmp.5(%tmp.13, %tmp.15);
+[ "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/bin/gen/006-B3225-00/source/Rez.mcgen" 31 16 ]
+                %tmp.16 = self;
+                symbol [ addItem %tmp.17 31 16 23 ];
+                %tmp.17 = getv function %tmp.16 :addItem;
+                symbol [ WatchUi %tmp.18 31 25 32 ];
+                %tmp.18 = getm $.Toybox.WatchUi;
+                symbol [ loadResource %tmp.19 31 33 45 ];
+                %tmp.19 = getv function %tmp.18 :loadResource;
+                symbol [ $ %tmp.20 31 46 47 ];
+                %tmp.20 = getm $;
+                symbol [ Rez %tmp.21 31 48 51 ];
+                %tmp.21 = getv %tmp.20 :Rez;
+                symbol [ Strings %tmp.22 31 52 59 ];
+                %tmp.22 = getv %tmp.21 :Strings;
+                symbol [ menu_label_2 %tmp.23 31 60 72 ];
+                %tmp.23 = getv %tmp.22 :menu_label_2;
+                %tmp.24 = invoke %tmp.18 %tmp.19(%tmp.23);
+                %tmp.25 = as %tmp.24 String;
+                symbol [ String %tmp.25 31 77 83 ];
+                %tmp.27 = const :item_2;
+                symbol [ item_2 %tmp.27 31 87 93 const ];
+                invoke %tmp.16 %tmp.17(%tmp.25, %tmp.27);
+_Users_rubenvlieger_Documents_garmin_speedcoach2_speedcoach_bin_gen_006_B3225_00_source_Rez_mcgen_28_34_32_12_stop:
+            }
+        }
+    }
+    [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/bin/gen/006-B3225-00/source/Rez.mcgen"; @line = 36; @symbol_moduledef = [Strings,36,11,18]; ]
+    module Strings {
+        [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/bin/gen/006-B3225-00/source/Rez.mcgen"; @line = 36; ]
+        <init> {
+        }
+        [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/bin/gen/006-B3225-00/source/Rez.mcgen"; @line = 37; @position = 27; initialized = true; @symbol_vardef = [menu_label_1,37,27,39]; @symbol_type<0> = [ResourceId,37,43,53]; ]
+        var menu_label_1 as ResourceId;
+        [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/bin/gen/006-B3225-00/source/Rez.mcgen"; @line = 38; @position = 27; initialized = true; @symbol_vardef = [menu_label_2,38,27,39]; @symbol_type<0> = [ResourceId,38,43,53]; ]
+        var menu_label_2 as ResourceId;
+        [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/bin/gen/006-B3225-00/source/Rez.mcgen"; @line = 39; @position = 27; initialized = true; @symbol_vardef = [prompt,39,27,33]; @symbol_type<0> = [ResourceId,39,37,47]; ]
+        var prompt as ResourceId;
+        [ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/bin/gen/006-B3225-00/source/Rez.mcgen"; @line = 40; @position = 27; initialized = true; @symbol_vardef = [AppName,40,27,34]; @symbol_type<0> = [ResourceId,40,38,48]; ]
+        var AppName as ResourceId;
+    }
+}
+[ @file = "/Users/rubenvlieger/Documents/garmin/speedcoach2/speedcoach/bin/gen/006-B3225-00/source/Rez.mcgen"; @line = 1; ]
+<init> {
+}
